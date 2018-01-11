@@ -8,11 +8,16 @@ public class TileMap : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+
+    }
+
+    Sprite[] _sprityArray;
+    public void Init()
+    {
         _sprityArray = Resources.LoadAll<Sprite>("Sprites/MapSprite");
         CreateTiles();
     }
 
-    Sprite[] _sprityArray;
     void Update()
     {
 
@@ -22,7 +27,7 @@ public class TileMap : MonoBehaviour
 
     public GameObject TileObjectPrefabs;
 
-    List<TileCell> _tileCellList = new List<TileCell>();
+    TileCell[,] _tileCellList;
 
     int _width;
     int _height;
@@ -41,13 +46,12 @@ public class TileMap : MonoBehaviour
             _width = int.Parse(Token[1]);
             _height = int.Parse(Token[2]);
 
-        }
+        }_tileCellList = new TileCell[_height, _width];
 
         for(int y=0;y<_height;y++)
         {
             int line = y + 2;
             string[] Token = records[line].Split(',');
-            //Debug.Log(records[line]);
             for(int x=0;x<_width;x++)
             {
                 int spriteIndex = int.Parse(Token[x]);
@@ -59,13 +63,17 @@ public class TileMap : MonoBehaviour
 
                 TileObject tileObject = tileGameObject.GetComponent<TileObject>();
                 tileObject.Init(_sprityArray[spriteIndex]);
-                // tileObject.SetPosition(x*tileSize/100.0f, y*tileSize/100.0f);
 
-                TileCell tileCell = new TileCell();
-                tileCell.Init();
-                tileCell.SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
-                tileCell.AddObject(eTileLayer.GROUND, tileObject);
-                _tileCellList.Add(tileCell);
+                //TileCell tileCell = new TileCell();
+                //tileCell.Init();
+                //tileCell.SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
+                //tileCell.AddObject(eTileLayer.GROUND, tileObject);
+                //_tileCellList.Add(tileCell);
+
+                _tileCellList[y, x] = new TileCell();
+                GetTileCell(x, y).Init();
+                GetTileCell(x,y).SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
+                GetTileCell(x,y).AddObject(eTileLayer.GROUND, tileObject);
             }
         }
 
@@ -80,7 +88,7 @@ public class TileMap : MonoBehaviour
             for (int x=0;x<_width;x++)
             {
                 int spriteIndex = int.Parse(Token[x]);
-                if(0<=spriteIndex)
+                if(0<spriteIndex)
                 {
                     GameObject tileGameObject = GameObject.Instantiate(TileObjectPrefabs);
                     tileGameObject.transform.SetParent(transform);
@@ -89,30 +97,27 @@ public class TileMap : MonoBehaviour
 
                     TileObject tileObject = tileGameObject.GetComponent<TileObject>();
                     tileObject.Init(_sprityArray[spriteIndex]);
-                    // tileObject.SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
 
-                    int cellIndex = (y * _width) + x;
-                    _tileCellList[cellIndex].AddObject(eTileLayer.GROUND, tileObject);
+                   GetTileCell(x,y).AddObject(eTileLayer.GROUND, tileObject);
                 }
 
             }
         }
 
-        //for(int i=0; i< _sprityArray.Length;i++)
-        //{
-        //    float x = ((i % 16) * tileSize) / 100.0f;
-        //    float y = -(i / 16) * tileSize / 100.0f;//값이 클수록 위로 올라가는 좌표
-
-        //    GameObject tileGameObject = GameObject.Instantiate(TileObjectPrefabs);
-        //    tileGameObject.transform.SetParent(transform);
-        //    tileGameObject.transform.localScale = Vector3.one;
-        //    tileGameObject.transform.localPosition = Vector3.zero;
-
-        //    TileObject tileObject = tileGameObject.GetComponent<TileObject>();
-        //    tileObject.Init(_sprityArray[i]);
-        //    tileObject.SetPosition(x, y);
-        //}
-
     }
+    public int GetWidth()
+    {
+        return _width;
+    }
+
+    public int GetHeight()
+    {
+        return _height;
+    }
+    public TileCell GetTileCell(int x,int y)
+    {
+        return _tileCellList[y,x];
+    }
+
 
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileObject : MonoBehaviour
+public class TileObject : MapObject
 {
 
     // Use this for initialization
@@ -19,10 +19,5 @@ public class TileObject : MonoBehaviour
     public void Init(Sprite sprite)
     {
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
-    }
-
-    public void SetPosition(Vector2 postion)
-    {
-        gameObject.transform.localPosition = postion;
     }
 }
