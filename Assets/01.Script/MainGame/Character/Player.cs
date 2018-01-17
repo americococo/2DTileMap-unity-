@@ -11,39 +11,22 @@ public class Player : Character
 
     void Start()
     {
-       
+
     }
 
     void Update()
     {
 
-        //int moveX = _tileX;
-        //int moveY = _tileY;
-        //입력 이동(결합상태)
-        eMoveDirection moveDirection= eMoveDirection.NONE;
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            moveDirection = eMoveDirection.LEFT;
-            
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            moveDirection = eMoveDirection.RIGHT;
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            moveDirection = eMoveDirection.UP;
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            moveDirection = eMoveDirection.DOWN;
-        }
+        if (false == _isLive)
+            return;
+        eMoveDirection movedirection = _state.Update();
 
 
-        if(eMoveDirection.NONE != moveDirection)
-        {
-            movoingDirection(moveDirection);
-        }
+        //moveState에게 먹히기 때문에 필요없읍
+        //if (eMoveDirection.NONE != moveDirection)
+        //{
+        //    movoingDirection(moveDirection);
+        //}
 
 
     }
@@ -56,8 +39,9 @@ public class Player : Character
 
         switch (moveDirection)
         {
-            case eMoveDirection.LEFT: animationTrigger = "Left";
-                moveX--;break;
+            case eMoveDirection.LEFT:
+                animationTrigger = "Left";
+                moveX--; break;
             case eMoveDirection.RIGHT:
                 animationTrigger = "Right";
                 moveX++; break;
@@ -75,14 +59,6 @@ public class Player : Character
         //이동 가능여부 체크
         TileMap map = GameManger.Instance.GetMap();
 
-        //if (true == map.CanMoveTile(moveX, moveY))
-        //{
-        //    map.ResetObject(_tileX, _tileY, this);
-        //    _tileX = moveX;
-        //    _tileY = moveY;
-        //    map.SetObject(_tileX, _tileY, this, eTileLayer.MIIDDLE);
-        //}
-
         List<MapObject> collisionList = map.GetCollisionList(moveX, moveY);//충돌list불러옴
         if (0 == collisionList.Count)//충돌list가 있으면 이동x 
         {
@@ -93,7 +69,7 @@ public class Player : Character
         }
         else//충돌 list에서 값불러옴
         {
-            for(int i=0;i<collisionList.Count;i++)
+            for (int i = 0; i < collisionList.Count; i++)
             {
                 switch (collisionList[i].GetObjectType())
                 {
@@ -106,14 +82,5 @@ public class Player : Character
         }
     }
 
-    void Attack(MapObject Ene)
-    {
-        ObjectMessageParam messageParam = new ObjectMessageParam();
-        messageParam.sender = this;
-        messageParam.receiver = Ene;
-        messageParam.attackpoint = _attackPoint;
-        messageParam.message = "ATTACK";
 
-        messageSystem.Instance.Send(messageParam);
-    }
 }

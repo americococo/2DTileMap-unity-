@@ -50,8 +50,30 @@ public class Character : MapObject
         //tileCell.AddObject(eTileLayer.MIIDDLE, this);
 
         map.SetObject(_tileX, _tileY, this, eTileLayer.MIIDDLE);
+
+        InitState();
     }
 
+
+    //state
+    protected Dictionary<eStateType, State> _stateMap = new Dictionary<eStateType, State>();
+    protected State _state;
+
+    void InitState()
+    {
+        {
+            State state = new Idle();
+            state.Init(this);
+            _stateMap[eStateType.IDLE] = state;
+        }
+        {
+            State state = new Move();
+            state.Init(this);
+            _stateMap[eStateType.IDLE] = state;
+        }
+
+        _state = _stateMap[eStateType.IDLE];
+    }
 
     override public void SetSortingOrder(eTileLayer layer, int sortingOrder)
     {
@@ -65,7 +87,108 @@ public class Character : MapObject
     protected int _tileX;
     protected int _tileY;
 
+    public int GetTileX()
+    {
+        return _tileX;
+    }
+    public int GetTileY()
+    {
+        return _tileY;
+    }
+
+    eMoveDirection _nextDirection = eMoveDirection.NONE;
+    public eMoveDirection GetNextDirection() { return _nextDirection; }
+    public void SetNextDirection(eMoveDirection nextDirection) { _nextDirection = nextDirection; }
 
     //attack
     protected int _attackPoint;
+
+    //message
+    override public void ReceiverObjcectMessage(ObjectMessageParam messageParam)
+    {
+        switch (messageParam.message)
+        {
+            case "Attack":
+                Dameged(messageParam.attackpoint);
+                Debug.Log("HP:" + _hp.ToString());
+                break;
+        }
+
+    }
+
+    //attack
+    public void Attack(MapObject Ene)
+    {
+        ObjectMessageParam messageParam = new ObjectMessageParam();
+        messageParam.sender = this;
+        messageParam.receiver = Ene;
+        messageParam.attackpoint = _attackPoint;
+        messageParam.message = "Attack";
+
+        messageSystem.Instance.Send(messageParam);
+    }
+
+    //attackked
+    void Dameged(int attakcpointOfEnemy)
+    {
+        _hp -= attakcpointOfEnemy;
+        if (0 >= _hp)
+        {
+            _hp = 0;
+            _isLive = false;
+            _canMove = true;
+        }
+    }
+
+    //life
+    protected int _hp = 200; // hp<0 -> Live(false)
+    protected bool _isLive = true;
+
+
+
+    //State
+    public void ChangeState(eStateType nextstate)
+    {
+        if (null != _state)
+            _state.Stop();
+
+        _state = _stateMap[nextstate];
+        _state.Start();
+    }
+    public bool MoveStart(int moveX,int moveY)
+    {
+        string animationTrigger = "Down";
+
+        switch (_nextDirection)
+        {
+            case eMoveDirection.LEFT:
+                animationTrigger = "Left";
+                moveX--; break;
+            case eMoveDirection.RIGHT:
+                animationTrigger = "Right";
+                moveX++; break;
+            case eMoveDirection.UP:
+                animationTrigger = "Up";
+                moveY++; break;
+            case eMoveDirection.DOWN:
+                animationTrigger = "Down";
+                moveY--; break;
+
+        }
+
+        //이동 가능여부 체크
+        TileMap map = GameManger.Instance.GetMap();
+
+        List<MapObject> collisionList = map.GetCollisionList(moveX, moveY);//충돌list불러옴
+        if (0 == collisionList.Count)//충돌list가 있으면 이동x 
+        {
+            map.ResetObject(_tileX, _tileY, this);
+            _tileX = moveX;
+            _tileY = moveY;
+            map.SetObject(_tileX, _tileY, this, eTileLayer.MIIDDLE);
+            return true;
+        }
+        return false;
+    }
 }
+

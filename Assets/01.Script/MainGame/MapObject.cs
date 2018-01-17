@@ -49,7 +49,7 @@ public class MapObject : MonoBehaviour
     }
 
 
-    bool _canMove = true;
+    protected bool _canMove = true;
     public bool CanMove()
     {
         return _canMove;
@@ -68,12 +68,13 @@ public class MapObject : MonoBehaviour
     }
 
     //message
-    public void ReceiverObjcectMessage(ObjectMessageParam messageParam)
+    virtual public void ReceiverObjcectMessage(ObjectMessageParam messageParam)
     {
         switch (messageParam.message)
         {
-            case "ATTACK":
-                Debug.Log("ATTACK" + messageParam.attackpoint);break;
+            case "Attack":
+                Debug.Log("Attak" + messageParam.attackpoint);
+                break;
         }
 
     }
