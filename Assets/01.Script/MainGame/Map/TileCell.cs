@@ -35,16 +35,50 @@ public class TileCell
         _postion.y = y;
     }
 
+
+    //add / Remove
     public void AddObject(eTileLayer layer,MapObject mapObject)
     {
         List<MapObject> mapObjectList = _MapObjectMap[(int)layer];
 
-        int sortingID = SortingLayer.NameToID(layer.ToString());
+        //int sortingID = SortingLayer.NameToID(layer.ToString());
         int sortingOder = mapObjectList.Count;
 
-        mapObject.SetSortingOrder(sortingID, sortingOder);
+        //mapObject.SetSortingOrder(sortingID, sortingOder);
+        mapObject.SetSortingOrder(layer, sortingOder);
         mapObject.SetPosition(_postion);
 
         mapObjectList.Add(mapObject);
+    }
+    public void RemoveObject(MapObject mapObject)
+    {
+        List<MapObject> mapObjectList = _MapObjectMap[(int)mapObject.GetLayer()];
+        mapObjectList.Remove(mapObject);
+    }
+
+
+    public bool CanMove()
+    {
+        for(int layer=0; layer<(int)eTileLayer.MAXCOUNT;layer++)
+        {
+            List<MapObject> mapObject = _MapObjectMap[layer];
+            for(int i=0;i<mapObject.Count;i++)
+                if(false==mapObject[i].CanMove())
+            return false;
+        }
+        return true;
+    }
+    public List<MapObject> GetCollsionList()
+    {
+        List<MapObject> CollsionList = new List<MapObject>();
+
+        for (int layer = 0; layer < (int)eTileLayer.MAXCOUNT; layer++)
+        {
+            List<MapObject> mapObject = _MapObjectMap[layer];
+            for (int i = 0; i < mapObject.Count; i++)
+                if (false == mapObject[i].CanMove())
+                    CollsionList.Add(mapObject[i]);
+        }
+        return CollsionList;
     }
 }

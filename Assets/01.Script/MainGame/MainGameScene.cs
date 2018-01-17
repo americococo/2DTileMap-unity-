@@ -16,7 +16,7 @@ public class MainGameScene : MonoBehaviour
 
     void Update()
     {
-        
+        messageSystem.Instance.ProcessMessage();
     }
     void Init()
     {
@@ -25,7 +25,10 @@ public class MainGameScene : MonoBehaviour
         GameManger.Instance.SetMap(_tileMap);
 
         Character player = CreateCharacter("Player", "character01");
+
         Character monster = CreateCharacter("Monster", "character02");
+        monster.SetCanMove(false);
+        
         player.BecomeViewr();
 
     }

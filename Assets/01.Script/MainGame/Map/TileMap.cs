@@ -32,7 +32,7 @@ public class TileMap : MonoBehaviour
     int _width;
     int _height;
 
-   void CreateTiles()
+    void CreateTiles()
     {
         float tileSize = 32.0f;
 
@@ -46,13 +46,14 @@ public class TileMap : MonoBehaviour
             _width = int.Parse(Token[1]);
             _height = int.Parse(Token[2]);
 
-        }_tileCellList = new TileCell[_height, _width];
+        }
+        _tileCellList = new TileCell[_height, _width];
 
-        for(int y=0;y<_height;y++)
+        for (int y = 0; y < _height; y++)
         {
             int line = y + 2;
             string[] Token = records[line].Split(',');
-            for(int x=0;x<_width;x++)
+            for (int x = 0; x < _width; x++)
             {
                 int spriteIndex = int.Parse(Token[x]);
 
@@ -72,8 +73,8 @@ public class TileMap : MonoBehaviour
 
                 _tileCellList[y, x] = new TileCell();
                 GetTileCell(x, y).Init();
-                GetTileCell(x,y).SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
-                GetTileCell(x,y).AddObject(eTileLayer.GROUND, tileObject);
+                GetTileCell(x, y).SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
+                GetTileCell(x, y).AddObject(eTileLayer.GROUND, tileObject);
             }
         }
 
@@ -81,14 +82,14 @@ public class TileMap : MonoBehaviour
         //2층
         scriptAsset = Resources.Load<TextAsset>("Data/Map1MapData_layer2");
         records = scriptAsset.text.Split('\n');    //레코드 받아옴
-        for(int y=0;y<_height;y++)
+        for (int y = 0; y < _height; y++)
         {
             int line = y + 2;
             string[] Token = records[line].Split(',');
-            for (int x=0;x<_width;x++)
+            for (int x = 0; x < _width; x++)
             {
                 int spriteIndex = int.Parse(Token[x]);
-                if(0<spriteIndex)
+                if (0 < spriteIndex)
                 {
                     GameObject tileGameObject = GameObject.Instantiate(TileObjectPrefabs);
                     tileGameObject.transform.SetParent(transform);
@@ -97,8 +98,8 @@ public class TileMap : MonoBehaviour
 
                     TileObject tileObject = tileGameObject.GetComponent<TileObject>();
                     tileObject.Init(_sprityArray[spriteIndex]);
-
-                   GetTileCell(x,y).AddObject(eTileLayer.GROUND, tileObject);
+                    tileObject.SetCanMove(false);
+                    GetTileCell(x, y).AddObject(eTileLayer.GROUND, tileObject);
                 }
 
             }
@@ -114,9 +115,46 @@ public class TileMap : MonoBehaviour
     {
         return _height;
     }
-    public TileCell GetTileCell(int x,int y)
+    public TileCell GetTileCell(int x, int y)
     {
-        return _tileCellList[y,x];
+        return _tileCellList[y, x];
     }
 
+    //타일 이동 
+    public bool CanMoveTile(int tileX, int tileY)
+    {
+        if (tileX < 0 || _width <= tileX)
+            return false;
+        if (tileY < 0 || _height <= tileY)
+            return false;
+
+        TileCell tileCell = GetTileCell(tileX, tileY);
+
+        return tileCell.CanMove();
+
+    }
+
+    public List<MapObject> GetCollisionList(int tileX, int tileY)
+    {
+        if (tileX < 0 || _width <= tileX)
+            return null;
+        if (tileY < 0 || _height <= tileY)
+            return null;
+
+        TileCell tileCell = GetTileCell(tileX, tileY);
+
+        return tileCell.GetCollsionList();
+    }
+
+    public void ResetObject(int tileX, int tileY, MapObject tileObject)
+    {
+        TileCell tileCell =GetTileCell(tileX, tileY);
+        tileCell.RemoveObject(tileObject);
+    }
+
+    public void SetObject(int tileX, int tileY, MapObject tileObject, eTileLayer tileLayer)
+    {
+        TileCell tileCell = GetTileCell(tileX, tileY);
+        tileCell.AddObject(tileLayer, tileObject);
+    }
 }
