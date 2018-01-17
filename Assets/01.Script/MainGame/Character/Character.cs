@@ -69,7 +69,7 @@ public class Character : MapObject
         {
             State state = new Move();
             state.Init(this);
-            _stateMap[eStateType.IDLE] = state;
+            _stateMap[eStateType.MOVE] = state;
         }
 
         _state = _stateMap[eStateType.IDLE];
@@ -155,37 +155,38 @@ public class Character : MapObject
         _state = _stateMap[nextstate];
         _state.Start();
     }
-    public bool MoveStart(int moveX,int moveY)
+
+    public bool MoveStart(int tileX, int tileY)
     {
-        string animationTrigger = "Down";
+        string animationTrigger = "Up";
 
         switch (_nextDirection)
         {
             case eMoveDirection.LEFT:
                 animationTrigger = "Left";
-                moveX--; break;
+                break;
             case eMoveDirection.RIGHT:
                 animationTrigger = "Right";
-                moveX++; break;
+                break;
             case eMoveDirection.UP:
                 animationTrigger = "Up";
-                moveY++; break;
+                break;
             case eMoveDirection.DOWN:
                 animationTrigger = "Down";
-                moveY--; break;
-
+                break;
         }
 
-        //이동 가능여부 체크
-        TileMap map = GameManger.Instance.GetMap();
+        _chracterView.GetComponent<Animator>().SetTrigger(animationTrigger);
 
-        List<MapObject> collisionList = map.GetCollisionList(moveX, moveY);//충돌list불러옴
-        if (0 == collisionList.Count)//충돌list가 있으면 이동x 
+        TileMap map = GameManger.Instance.GetMap();
+        List<MapObject> collisionList = map.GetCollisionList(tileX, tileY);
+        if (0 == collisionList.Count)
         {
             map.ResetObject(_tileX, _tileY, this);
-            _tileX = moveX;
-            _tileY = moveY;
+            _tileX = tileX;
+            _tileY = tileY;
             map.SetObject(_tileX, _tileY, this, eTileLayer.MIIDDLE);
+
             return true;
         }
         return false;

@@ -6,8 +6,7 @@ public class Idle : State
 {
     override public eMoveDirection Update()
     {
-
-        if(_nextState != eStateType.NONE)
+        if (eStateType.NONE != _nextState)
         {
             _character.ChangeState(_nextState);
             return eMoveDirection.NONE;
@@ -18,20 +17,18 @@ public class Idle : State
         {
             moveDirection = eMoveDirection.LEFT;
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             moveDirection = eMoveDirection.RIGHT;
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        }   
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             moveDirection = eMoveDirection.UP;
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             moveDirection = eMoveDirection.DOWN;
         }
-
-
 
         if (eMoveDirection.NONE != moveDirection)
         {
@@ -39,15 +36,6 @@ public class Idle : State
             _nextState = eStateType.MOVE;
         }
 
-
         return moveDirection;
-    }
-    public override void Start()
-    {
-        base.Start();
-    }
-    public override void Stop()
-    {
-        base.Stop();
     }
 }
