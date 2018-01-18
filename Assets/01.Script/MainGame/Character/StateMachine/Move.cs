@@ -28,19 +28,12 @@ public class Move : State
         }
         if (false == _character.MoveStart(moveX, moveY))
         {
-            TileMap map = GameManger.Instance.GetMap();
-            List<MapObject> collisionList = map.GetCollisionList(moveX, moveY);
-            for (int i = 0; i < collisionList.Count; i++)
-            {
-                switch (collisionList[i].GetObjectType())
-                {
-                    case eMapObjectType.MONSTER:
-                        _character.Attack(collisionList[i]);
-                        break;
-                }
-            }
+            _nextState = eStateType.ATTACK;
         }
-        _character.SetNextDirection(eMoveDirection.NONE);
-        _nextState = eStateType.IDLE;
+        else
+        {
+            _character.SetNextDirection(eMoveDirection.NONE);
+            _nextState = eStateType.IDLE;
+        }
     }
 }

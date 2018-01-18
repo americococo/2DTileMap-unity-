@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Idle : State
 {
-    override public eMoveDirection Update()
+    override public void Update()
     {
         if (eStateType.NONE != _nextState)
         {
             _character.ChangeState(_nextState);
-            return eMoveDirection.NONE;
         }
 
         eMoveDirection moveDirection = eMoveDirection.NONE;
@@ -35,7 +34,5 @@ public class Idle : State
             _character.SetNextDirection(moveDirection);
             _nextState = eStateType.MOVE;
         }
-
-        return moveDirection;
     }
 }

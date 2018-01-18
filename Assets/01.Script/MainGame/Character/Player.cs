@@ -14,12 +14,4 @@ public class Player : Character
 
     }
 
-    void Update()
-    {
-        if (false == _isLive)
-            return;
-
-        eMoveDirection moveDirection = _state.Update();
-    }
-
 }

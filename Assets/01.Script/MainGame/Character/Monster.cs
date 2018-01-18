@@ -9,12 +9,5 @@ public class Monster : Character
         _ObjectType = eMapObjectType.MONSTER;
     }
 
-    void Update()
-    {
-        if (false == _isLive)
-            return;
-    }
-
-
-
+    
 }

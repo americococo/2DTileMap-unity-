@@ -27,9 +27,14 @@ public class Character : MapObject
     }
 
     // Update is called once per frame
-    void Update()
+     void Update()
     {
+        
+        //if (false == _isLive)
+        //    return;
 
+        
+        _state.Update();
     }
     public void Init(string viewName)
     {
@@ -71,6 +76,21 @@ public class Character : MapObject
             state.Init(this);
             _stateMap[eStateType.MOVE] = state;
         }
+        {
+            State state = new Attack();
+            state.Init(this);
+            _stateMap[eStateType.ATTACK] = state;
+        }
+        {
+            State state = new Damage();
+            state.Init(this);
+            _stateMap[eStateType.DAMAGE] = state;
+        }
+        {
+            State state = new Death();
+            state.Init(this);
+            _stateMap[eStateType.DEATH] = state;
+        }
 
         _state = _stateMap[eStateType.IDLE];
     }
@@ -100,8 +120,6 @@ public class Character : MapObject
     public eMoveDirection GetNextDirection() { return _nextDirection; }
     public void SetNextDirection(eMoveDirection nextDirection) { _nextDirection = nextDirection; }
 
-    //attack
-    protected int _attackPoint;
 
     //message
     override public void ReceiverObjcectMessage(ObjectMessageParam messageParam)
@@ -109,8 +127,9 @@ public class Character : MapObject
         switch (messageParam.message)
         {
             case "Attack":
-                Dameged(messageParam.attackpoint);
-                Debug.Log("HP:" + _hp.ToString());
+                _damagePoint = messageParam.attackpoint;
+                Debug.Log("Damage: " + _hp);
+                _state.NextState(eStateType.DAMAGE);
                 break;
         }
 
@@ -127,16 +146,22 @@ public class Character : MapObject
 
         messageSystem.Instance.Send(messageParam);
     }
+    //attack
+    protected int _attackPoint;
+    protected int _damagePoint;
 
-    //attackked
-    void Dameged(int attakcpointOfEnemy)
+    public int GetDamagePoint()
     {
-        _hp -= attakcpointOfEnemy;
-        if (0 >= _hp)
+        return _damagePoint;
+    }
+
+    public void DecreaseHp(int damage)
+    {
+        _hp -= damage;
+        if(0>= _hp)
         {
             _hp = 0;
             _isLive = false;
-            _canMove = true;
         }
     }
 
@@ -145,6 +170,10 @@ public class Character : MapObject
     protected bool _isLive = true;
 
 
+    public bool Islive()
+    {
+        return _isLive;
+    }
 
     //State
     public void ChangeState(eStateType nextstate)
