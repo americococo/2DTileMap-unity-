@@ -64,7 +64,7 @@ public class Character : MapObject
     protected Dictionary<eStateType, State> _stateMap = new Dictionary<eStateType, State>();
     protected State _state;
 
-    void InitState()
+    virtual protected void InitState()
     {
         {
             State state = new Idle();

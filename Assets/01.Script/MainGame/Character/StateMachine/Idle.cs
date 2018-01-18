@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Idle : State
 {
-    override public void Update()
+    override  public void Update()
     {
         if (eStateType.NONE != _nextState)
         {
