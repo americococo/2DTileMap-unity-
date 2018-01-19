@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public enum eMoveDirection
 {
@@ -29,12 +29,15 @@ public class Character : MapObject
     // Update is called once per frame
      void Update()
     {
-        
+
         //if (false == _isLive)
         //    return;
-
-        
         _state.Update();
+
+        UpdateAttackCoolTime();
+
+        _hpGuage.value = _hp / 200.0f;
+
     }
     public void Init(string viewName)
     {
@@ -128,8 +131,8 @@ public class Character : MapObject
         {
             case "Attack":
                 _damagePoint = messageParam.attackpoint;
-                Debug.Log("Damage: " + _hp);
                 _state.NextState(eStateType.DAMAGE);
+                Debug.Log("Damage: " + _hp);
                 break;
         }
 
@@ -138,6 +141,8 @@ public class Character : MapObject
     //attack
     public void Attack(MapObject Ene)
     {
+        ResetCoolTime();
+        
         ObjectMessageParam messageParam = new ObjectMessageParam();
         messageParam.sender = this;
         messageParam.receiver = Ene;
@@ -150,6 +155,30 @@ public class Character : MapObject
     protected int _attackPoint;
     protected int _damagePoint;
 
+    float _attackCoolTime=0.1f;
+    float _deltaAttackCoolTime = 0.0f;
+
+    void UpdateAttackCoolTime()
+    {
+        if (_attackCoolTime <= _deltaAttackCoolTime)
+            _deltaAttackCoolTime = _attackCoolTime;
+        _deltaAttackCoolTime += Time.deltaTime;
+    }
+
+    public bool IsAttackAble()
+    {
+        if(_attackCoolTime <= _deltaAttackCoolTime)
+            return true;
+        return false;
+
+    }
+
+    void ResetCoolTime()
+    {
+        _deltaAttackCoolTime = 0.0f;
+    }
+
+
     public int GetDamagePoint()
     {
         return _damagePoint;
@@ -157,12 +186,21 @@ public class Character : MapObject
 
     public void DecreaseHp(int damage)
     {
+        _chracterView.GetComponent<SpriteRenderer>().color = Color.red;
+
+        Invoke("ResetColor", 0.1f);//0.1초 후 ResetColor 함수 호출
+
         _hp -= damage;
         if(0>= _hp)
         {
             _hp = 0;
             _isLive = false;
         }
+    }
+
+    void ResetColor()
+    {
+        _chracterView.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     //life
@@ -220,5 +258,21 @@ public class Character : MapObject
         }
         return false;
     }
+
+
+    //UI
+    Slider _hpGuage;
+
+    public void LinkHPGuage(Slider HpSlider)
+    {
+        GameObject canvasObject = transform.Find("Canvas").gameObject;
+        HpSlider.transform.SetParent(canvasObject.transform);
+        HpSlider.transform.localPosition = Vector3.zero;
+        HpSlider.transform.localScale= Vector3.one;
+
+        _hpGuage = HpSlider;
+        _hpGuage.value = _hp / 100.0f;
+    }
+
 }
 

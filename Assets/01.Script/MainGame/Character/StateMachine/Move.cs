@@ -28,7 +28,10 @@ public class Move : State
         }
         if (false == _character.MoveStart(moveX, moveY))
         {
-            _nextState = eStateType.ATTACK;
+            if (_character.IsAttackAble())
+                _nextState = eStateType.ATTACK;
+            else
+                _nextState = eStateType.IDLE;
         }
         else
         {

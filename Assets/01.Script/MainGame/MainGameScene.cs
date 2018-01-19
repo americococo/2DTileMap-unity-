@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class MainGameScene : MonoBehaviour
 {
+
+
+    public MainGameUI GameUI;
 
     public TileMap _tileMap;
     //public Player _TestPlayer;
@@ -55,6 +58,9 @@ public class MainGameScene : MonoBehaviour
 
 
         character.Init(resourceName);
+
+        Slider hpGuage = GameUI.CreateHPSlider();
+        character.LinkHPGuage(hpGuage);
 
         return character;
     }

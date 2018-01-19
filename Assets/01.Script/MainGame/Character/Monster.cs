@@ -12,31 +12,13 @@ public class Monster : Character
 
     protected override void InitState()
     {
+        base.InitState();
         {
-            State state = new MonsterIdle();
+            State state = new NPCIdle();
             state.Init(this);
             _stateMap[eStateType.IDLE] = state;
         }
-        {
-            State state = new Move();
-            state.Init(this);
-            _stateMap[eStateType.MOVE] = state;
-        }
-        {
-            State state = new Attack();
-            state.Init(this);
-            _stateMap[eStateType.ATTACK] = state;
-        }
-        {
-            State state = new Damage();
-            state.Init(this);
-            _stateMap[eStateType.DAMAGE] = state;
-        }
-        {
-            State state = new Death();
-            state.Init(this);
-            _stateMap[eStateType.DEATH] = state;
-        }
+
         _state = _stateMap[eStateType.IDLE];
     }
 }
