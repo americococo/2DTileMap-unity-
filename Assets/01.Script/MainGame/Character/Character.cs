@@ -37,7 +37,7 @@ public class Character : MapObject
         UpdateAttackCoolTime();
 
         _hpGuage.value = _hp / 200.0f;
-
+        _attackcoolTimeGuage.value = _deltaAttackCoolTime;
     }
     public void Init(string viewName)
     {
@@ -155,14 +155,15 @@ public class Character : MapObject
     protected int _attackPoint;
     protected int _damagePoint;
 
-    float _attackCoolTime=0.1f;
+    float _attackCoolTime=1.0f;
     float _deltaAttackCoolTime = 0.0f;
 
     void UpdateAttackCoolTime()
     {
-        if (_attackCoolTime <= _deltaAttackCoolTime)
-            _deltaAttackCoolTime = _attackCoolTime;
-        _deltaAttackCoolTime += Time.deltaTime;
+        if (_deltaAttackCoolTime <= _attackCoolTime)
+            _deltaAttackCoolTime += Time.deltaTime;
+        else
+        _deltaAttackCoolTime = _attackCoolTime;
     }
 
     public bool IsAttackAble()
@@ -273,6 +274,17 @@ public class Character : MapObject
         _hpGuage = HpSlider;
         _hpGuage.value = _hp / 100.0f;
     }
+    Slider _attackcoolTimeGuage;
 
+    public void LinkAttackCoolTimeGuage(Slider AttackCoolTimeSlider)
+    {
+        GameObject canvasObject = transform.Find("Canvas").gameObject;
+        AttackCoolTimeSlider.transform.SetParent(canvasObject.transform);
+        AttackCoolTimeSlider.transform.localPosition =new Vector3(0,-0.3f,0) ;
+        AttackCoolTimeSlider.transform.localScale = Vector3.one;
+
+        _attackcoolTimeGuage = AttackCoolTimeSlider;
+        _attackcoolTimeGuage.value = _deltaAttackCoolTime;
+    }
 }
 

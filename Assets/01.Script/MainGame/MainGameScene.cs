@@ -62,6 +62,8 @@ public class MainGameScene : MonoBehaviour
         Slider hpGuage = GameUI.CreateHPSlider();
         character.LinkHPGuage(hpGuage);
 
+        Slider AttackCoolGuage = GameUI.CreateAttackCoolSlider();
+        character.LinkAttackCoolTimeGuage(AttackCoolGuage);
         return character;
     }
 
