@@ -27,7 +27,7 @@ public class Character : MapObject
     }
 
     // Update is called once per frame
-     void Update()
+    void Update()
     {
 
         //if (false == _isLive)
@@ -36,8 +36,7 @@ public class Character : MapObject
 
         UpdateAttackCoolTime();
 
-        _hpGuage.value = _hp / 200.0f;
-        _attackcoolTimeGuage.value = _deltaAttackCoolTime;
+        UpdateUI();
     }
     public void Init(string viewName)
     {
@@ -142,7 +141,7 @@ public class Character : MapObject
     public void Attack(MapObject Ene)
     {
         ResetCoolTime();
-        
+
         ObjectMessageParam messageParam = new ObjectMessageParam();
         messageParam.sender = this;
         messageParam.receiver = Ene;
@@ -155,7 +154,7 @@ public class Character : MapObject
     protected int _attackPoint;
     protected int _damagePoint;
 
-    float _attackCoolTime=1.0f;
+    float _attackCoolTime = 0.5f;
     float _deltaAttackCoolTime = 0.0f;
 
     void UpdateAttackCoolTime()
@@ -163,12 +162,12 @@ public class Character : MapObject
         if (_deltaAttackCoolTime <= _attackCoolTime)
             _deltaAttackCoolTime += Time.deltaTime;
         else
-        _deltaAttackCoolTime = _attackCoolTime;
+            _deltaAttackCoolTime = _attackCoolTime;
     }
 
     public bool IsAttackAble()
     {
-        if(_attackCoolTime <= _deltaAttackCoolTime)
+        if (_attackCoolTime <= _deltaAttackCoolTime)
             return true;
         return false;
 
@@ -192,7 +191,7 @@ public class Character : MapObject
         Invoke("ResetColor", 0.1f);//0.1초 후 ResetColor 함수 호출
 
         _hp -= damage;
-        if(0>= _hp)
+        if (0 >= _hp)
         {
             _hp = 0;
             _isLive = false;
@@ -263,28 +262,32 @@ public class Character : MapObject
 
     //UI
     Slider _hpGuage;
+    Slider _attackcoolTimeGuage;
+
+    void UpdateUI()
+    {
+        _hpGuage.value = _hp / 100.0f;
+        _attackcoolTimeGuage.value = _deltaAttackCoolTime * 2.0f;
+    }
 
     public void LinkHPGuage(Slider HpSlider)
     {
-        GameObject canvasObject = transform.Find("Canvas").gameObject;
-        HpSlider.transform.SetParent(canvasObject.transform);
-        HpSlider.transform.localPosition = Vector3.zero;
-        HpSlider.transform.localScale= Vector3.one;
-
+        LinkGuage(HpSlider, Vector3.zero);
         _hpGuage = HpSlider;
-        _hpGuage.value = _hp / 100.0f;
     }
-    Slider _attackcoolTimeGuage;
 
     public void LinkAttackCoolTimeGuage(Slider AttackCoolTimeSlider)
     {
-        GameObject canvasObject = transform.Find("Canvas").gameObject;
-        AttackCoolTimeSlider.transform.SetParent(canvasObject.transform);
-        AttackCoolTimeSlider.transform.localPosition =new Vector3(0,-0.3f,0) ;
-        AttackCoolTimeSlider.transform.localScale = Vector3.one;
-
+        LinkGuage(AttackCoolTimeSlider, new Vector3(0, -0.3f, 0));
         _attackcoolTimeGuage = AttackCoolTimeSlider;
-        _attackcoolTimeGuage.value = _deltaAttackCoolTime;
+    }
+    public void LinkGuage(Slider slider, Vector3 postion)
+    {
+        GameObject canvasObject = transform.Find("Canvas").gameObject;
+        slider.transform.SetParent(canvasObject.transform);
+        slider.transform.localPosition = postion;
+        slider.transform.localScale = Vector3.one;
+
     }
 }
 

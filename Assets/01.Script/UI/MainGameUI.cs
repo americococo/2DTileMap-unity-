@@ -22,15 +22,18 @@ public class MainGameUI : MonoBehaviour {
 
     public Slider CreateHPSlider()
     {
-        GameObject hpobject = GameObject.Instantiate(HPGuagePrefabs);
-        Slider slider = hpobject.GetComponent<Slider>();
-        return slider;
+        return CreateSlider(HPGuagePrefabs);
     }
 
     public Slider CreateAttackCoolSlider()
     {
-        GameObject AttackCoolTime = GameObject.Instantiate(AttackCoolGuagePrefabs);
-        Slider slider = AttackCoolTime.GetComponent<Slider>();
+        return CreateSlider(AttackCoolGuagePrefabs);
+    }
+
+    Slider CreateSlider(GameObject prefabs)
+    {
+        GameObject gameObject = GameObject.Instantiate(prefabs);
+        Slider slider = gameObject.GetComponent<Slider>();
         return slider;
     }
 }
