@@ -34,5 +34,7 @@ public class Idle : State
             _character.SetNextDirection(moveDirection);
             _nextState = eStateType.MOVE;
         }
+
+        
     }
 }
