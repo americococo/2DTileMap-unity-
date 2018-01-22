@@ -9,6 +9,7 @@ public enum eStateType
     ATTACK,
     DAMAGE,
     DEATH,
+    PATHFINDINGMOVE,
     NONE,
 }
 

@@ -69,9 +69,14 @@ public class Character : MapObject
     virtual protected void InitState()
     {
         {
-            State state = new Idle();
+            State state = new PathfindingIdle();
             state.Init(this);
             _stateMap[eStateType.IDLE] = state;
+        }
+        {
+            State state = new PathfindingTestMove();
+            state.Init(this);
+            _stateMap[eStateType.PATHFINDINGMOVE] = state;
         }
         {
             State state = new Move();
