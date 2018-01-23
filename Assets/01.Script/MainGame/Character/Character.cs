@@ -34,10 +34,26 @@ public class Character : MapObject
         //    return;
         _state.Update();
 
+
+        
         UpdateAttackCoolTime();
 
         UpdateUI();
+
+
     }
+
+    TileCell _goalTIleCell;
+
+    public void SetGoalTileCell(TileCell selectTilecell)
+    {
+        _goalTIleCell = selectTilecell;
+    }
+    public TileCell getGoalTileCell()
+    {
+        return _goalTIleCell;
+    }
+
     public void Init(string viewName)
     {
         string filePath = "Prefabs/CharacterView/" + viewName;
@@ -69,14 +85,9 @@ public class Character : MapObject
     virtual protected void InitState()
     {
         {
-            State state = new PathfindingIdle();
+            State state = new Idle();
             state.Init(this);
             _stateMap[eStateType.IDLE] = state;
-        }
-        {
-            State state = new PathfindingTestMove();
-            state.Init(this);
-            _stateMap[eStateType.PATHFINDINGMOVE] = state;
         }
         {
             State state = new Move();
@@ -111,17 +122,7 @@ public class Character : MapObject
         _chracterView.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
     }
 
-    protected int _tileX;
-    protected int _tileY;
-
-    public int GetTileX()
-    {
-        return _tileX;
-    }
-    public int GetTileY()
-    {
-        return _tileY;
-    }
+  
 
     eMoveDirection _nextDirection = eMoveDirection.NONE;
     public eMoveDirection GetNextDirection() { return _nextDirection; }

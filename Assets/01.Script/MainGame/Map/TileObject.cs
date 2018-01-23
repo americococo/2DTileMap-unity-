@@ -8,7 +8,7 @@ public class TileObject : MapObject
     // Use this for initialization
     void Start()
     {
-
+        _ObjectType = eMapObjectType.TILE_OBJECT;
     }
 
     // Update is called once per frame
@@ -20,5 +20,6 @@ public class TileObject : MapObject
     {
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
+
     
 }

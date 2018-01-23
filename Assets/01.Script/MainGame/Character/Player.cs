@@ -13,5 +13,26 @@ public class Player : Character
     {
 
     }
-
+    protected override void InitState()
+    {
+        base.InitState();
+        {
+            {
+                State state = new PathfindingIdle();
+                state.Init(this);
+                _stateMap[eStateType.IDLE] = state;
+            }
+            {
+                State state = new PathfindingTestMove();
+                state.Init(this);
+                _stateMap[eStateType.MOVE] = state;
+            }
+            {
+                State state = new Pathfinding();
+                state.Init(this);
+                _stateMap[eStateType.PATHFINDING] = state;
+            }
+            _state = _stateMap[eStateType.IDLE];
+        }
+    }
 }
