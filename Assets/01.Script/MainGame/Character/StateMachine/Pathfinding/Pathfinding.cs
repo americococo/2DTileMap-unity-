@@ -31,9 +31,11 @@ public class Pathfinding : State
         TileMap map = GameManger.Instance.GetMap();
         map.ResetPathfinding();
 
-        sPathCommand cmd;
+        sPathCommand startCmd;
+        startCmd.tileCell = _character.GetTileCell();
+        startCmd.prevTileCell = null;
 
-        _pathfindingQueue.Enqueue(cmd);
+        _pathfindingQueue.Enqueue(startCmd);
     }
 
     // Update is called once per frame
@@ -51,11 +53,13 @@ public class Pathfinding : State
             if (true != cmd.tileCell.IsPathFindingMark())
             {
                 //방문 처리
-                cmd.tileCell.SetPathFindingMark(true);
+                cmd.tileCell.SetPathFindingMark();
 
                 //목표 도달시 종료 Idle상태로 전환
                 if (cmd.tileCell != _character.getGoalTileCell())
                 {
+                    int moveX=(int)cmd.tileCell.GetPosition().x;
+                    int moveY=(int) cmd.tileCell.GetPosition().y;
 
                     //4방향 검사
                     for (int i = 0; i < (int)eMoveDirection.NONE; i++)
@@ -63,15 +67,30 @@ public class Pathfinding : State
                         switch ((eMoveDirection)i)
                         {
                             case eMoveDirection.LEFT:
-                                
+                                moveX-=32;
+                                break;
                             case eMoveDirection.RIGHT:
+                                moveX+=32;
+                                break;
                             case eMoveDirection.UP:
+                                moveY+=32;
+                                break;
                             case eMoveDirection.DOWN:
+                                moveY-=32;
                                 break;
                         }
 
+                        TileCell tileCell = GameManger.Instance.GetMap().GetTileCell(moveX * 32, moveY * 32);
 
+                        if(true==tileCell.CanMove()&& tileCell.IsPathFindingMark())
+                        {
+                            tileCell.SetPathFindingMark();
+                            sPathCommand newTileCmd;
+                            newTileCmd.prevTileCell = cmd.tileCell;
+                            newTileCmd.tileCell = tileCell;
 
+                            _pathfindingQueue.Enqueue(newTileCmd);
+                        }
                         //각 방향별 타일셀 도출
                         //canmove true && 방문 처리 안됀 타일
                         //거리 값계산 (Hyrist)
@@ -81,6 +100,8 @@ public class Pathfinding : State
                         //방향에 따라 찾은 타일 거리값 갱신 (hyrist)
                     }
                 }
+                else//목표 도달 했으므로 IDle 봔환
+                    _nextState = eStateType.IDLE;
             }
         }
     }

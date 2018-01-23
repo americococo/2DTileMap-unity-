@@ -44,7 +44,7 @@ public class Character : MapObject
 
     }
 
-    TileCell _goalTIleCell;
+    TileCell _goalTIleCell=null;
 
     public void SetGoalTileCell(TileCell selectTilecell)
     {

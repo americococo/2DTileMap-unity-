@@ -34,12 +34,11 @@ public class TileCell
         _postion.x = x;
         _postion.y = y;
     }
-
-    public Vector2 getPosition()
+    
+    public Vector2 GetPosition()
     {
         return _postion;
     }
-
 
     //add / Remove
     public void AddObject(eTileLayer layer,MapObject mapObject)
@@ -86,6 +85,23 @@ public class TileCell
         }
         return CollsionList;
     }
- 
 
+    //pathfind
+
+    bool _ismarking;
+
+    public void ResetPathfinding()
+    {
+        _ismarking = false;
+    }
+
+    public void SetPathFindingMark()
+    {
+        _ismarking = true;
+    }
+
+    public bool IsPathFindingMark()
+    {
+        return _ismarking;
+    }
 }

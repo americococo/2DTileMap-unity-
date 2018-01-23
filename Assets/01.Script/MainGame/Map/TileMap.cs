@@ -157,5 +157,12 @@ public class TileMap : MonoBehaviour
         TileCell tileCell = GetTileCell(tileX, tileY);
         tileCell.AddObject(tileLayer, tileObject);
     }
+    public void ResetPathfinding()
+    {
+        for (int y = 0; y < _height; y++)
+            for (int x=0; x<_width; x++)
+                _tileCellList[y,x].ResetPathfinding(); 
 
+
+    }
 }

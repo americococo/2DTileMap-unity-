@@ -8,7 +8,7 @@ public class TileObject : MapObject
     // Use this for initialization
     void Start()
     {
-        _ObjectType = eMapObjectType.TILE_OBJECT;
+        
     }
 
     // Update is called once per frame

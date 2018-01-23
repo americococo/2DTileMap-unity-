@@ -5,8 +5,7 @@ using UnityEngine;
 public enum eMapObjectType
 {
     NONE,
-    MONSTER,
-    TILE_OBJECT,
+    MONSTER
 }
 
 
