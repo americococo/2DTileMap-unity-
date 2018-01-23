@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public enum eMoveDirection
 {
-    NONE,
+    
     LEFT,
     RIGHT,
     UP,
     DOWN,
+    NONE
 }
 
 
@@ -111,6 +112,11 @@ public class Character : MapObject
         }
 
         _state = _stateMap[eStateType.IDLE];
+    }
+
+    public TileCell GetTileCell()
+    {
+        return GameManger.Instance.GetMap().GetTileCell(_tileX, _tileY);
     }
 
     override public void SetSortingOrder(eTileLayer layer, int sortingOrder)
