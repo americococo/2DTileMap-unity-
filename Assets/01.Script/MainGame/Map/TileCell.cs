@@ -35,6 +35,11 @@ public class TileCell
         _postion.y = y;
     }
 
+    public Vector2 getPosition()
+    {
+        return _postion;
+    }
+
 
     //add / Remove
     public void AddObject(eTileLayer layer,MapObject mapObject)
