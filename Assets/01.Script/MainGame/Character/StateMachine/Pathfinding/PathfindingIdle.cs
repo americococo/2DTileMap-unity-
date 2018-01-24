@@ -21,8 +21,7 @@ public class PathfindingIdle : State
                 if(null!=mapObject)
                 {
                     if(eMapObjectType.TILE_OBJECT == mapObject.GetObjectType())
-                    {
-                        Debug.Log("찾음");
+                    { 
                         hit.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
 
                         TileCell selectTilecell = GameManger.Instance.GetMap().GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());

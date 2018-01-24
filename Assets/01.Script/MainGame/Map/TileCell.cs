@@ -26,6 +26,8 @@ public class TileCell
             List<MapObject> MapObjectList = new List<MapObject>();
             _MapObjectMap.Add(MapObjectList);
         }
+
+       
     }
 
 
@@ -35,9 +37,23 @@ public class TileCell
         _postion.y = y;
     }
 
-    public Vector2 getPosition()
+    int _tileX;
+    int _tileY;
+
+    public int GetTileX()
     {
-        return _postion;
+        return _tileX;
+    }
+
+    public int GetTileY()
+    {
+        return _tileY;
+    }
+
+    public void SetTilePosition(Vector2 tilePosition)
+    {
+        _tileX = (int)tilePosition.x;
+        _tileY = (int)tilePosition.y;
     }
 
 
@@ -86,6 +102,31 @@ public class TileCell
         }
         return CollsionList;
     }
- 
+    public void ResetPathfinding()
+    {
+        marking = false;
+    }
 
+    bool marking=false;
+
+    public bool IsPathFindingMark()
+    {
+        return marking;
+    }
+    public void PathFindingMarking()
+    {
+        marking = true;
+
+        _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+    }
+
+    float Distance=0.0f;
+    float distanceWidthght=1.0f;
+
+    public float GetDistanceFromStart() { return Distance; }
+    public float GetDistanceWidght() { return distanceWidthght; }
+    public void SetDistanceFromStart(float distance)
+    {
+        Distance = distance;
+    }
 }
