@@ -111,7 +111,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 442}
   m_MaxSize: {x: 22012, y: 10021}
   vertical: 0
-  controlID: 90
+  controlID: 123
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -180,8 +180,8 @@ MonoBehaviour:
     y: 491
     width: 584
     height: 440
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_MinSize: {x: 204, y: 342}
   m_MaxSize: {x: 4004, y: 8042}
   vertical: 1
-  controlID: 91
+  controlID: 90
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -254,8 +254,8 @@ MonoBehaviour:
     y: 579
     width: 809
     height: 352
-  m_MinSize: {x: 104, y: 121}
-  m_MaxSize: {x: 4004, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -304,8 +304,8 @@ MonoBehaviour:
     y: 0
     width: 277
     height: 931
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -540,23 +540,23 @@ MonoBehaviour:
     height: 558
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: 44060000
     m_LastClickedID: 0
-    m_ExpandedIDs: ae65feff2e66feffa0fbffff000000003e29000058290000
+    m_ExpandedIDs: e2fbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Character(Clone)
-      m_OriginalName: Character(Clone)
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: -105042
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 
@@ -628,7 +628,7 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/03.Prefab/Map
+    - Assets/01.Script/MainGame/Character/StateMachine/Pathfinding
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -639,7 +639,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 48250000
     m_LastClickedID: 9544
-    m_ExpandedIDs: 000000005425000082260000aa280000ae280000b0280000b2280000b4280000da280000de280000e0280000e2280000f0280000f2280000f628000010290000122900001429000016290000182900002029000022290000262900003029000034290000b6290000b8290000ba290000bc290000
+    m_ExpandedIDs: 00000000dc240000102700002027000024270000282700002c270000302700005e270000682700006a2700006e27000084270000862700008a270000a4270000b6270000bc270000be270000c0270000cc270000ce270000d6270000e6270000f0270000bc280000be280000c0280000c2280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -664,10 +664,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 360}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 000000005425000082260000aa280000ae280000b0280000b2280000b4280000da280000de280000e0280000e2280000f0280000f2280000f628000010290000122900001429000016290000182900002029000022290000262900003029000034290000b6290000b8290000ba290000bc290000
+    scrollPos: {x: 0, y: 60}
+    m_SelectedIDs: 44060000
+    m_LastClickedID: 1604
+    m_ExpandedIDs: 00000000dc240000102700002027000024270000282700002c270000302700005e270000682700006a2700006e27000084270000862700008a270000a4270000b6270000bc270000be270000c0270000cc270000ce270000d6270000e6270000f0270000bc280000be280000c0280000c2280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -692,8 +692,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: 44060000
+    m_LastClickedInstanceID: 1604
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:

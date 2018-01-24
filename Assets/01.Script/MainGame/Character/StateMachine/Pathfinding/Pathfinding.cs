@@ -80,7 +80,7 @@ public class Pathfinding : State
                                 break;
                         }
 
-                        TileCell tileCell = GameManger.Instance.GetMap().GetTileCell(moveX * 32, moveY * 32);
+                        TileCell tileCell = GameManger.Instance.GetMap().GetTileCell(moveX / 32, moveY / 32);
 
                         if(true==tileCell.CanMove()&& tileCell.IsPathFindingMark())
                         {
