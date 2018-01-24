@@ -24,7 +24,7 @@ public class PathfindingIdle : State
                     hit.collider.GetComponent<SpriteRenderer>().color = Color.black;
 
                     TileCell GoalCell = GameManger.Instance.GetMap().GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());
-                    Debug.Log("찾음" + GoalCell.ToString());
+                    //Debug.Log("찾음" + GoalCell.ToString());
 
                     _character.SetGoalTileCell(GoalCell);
                 }

@@ -11,17 +11,19 @@ public enum eTileLayer
 }
 
 
+
 public class TileCell
 {
 
     Vector2 _postion;
 
     List<List<MapObject>> _MapObjectMap = new List<List<MapObject>>();
-    
+
+    public TileCell prevTileCell;
 
     public void Init()
     {
-        for(int i=0;i<(int)eTileLayer.MAXCOUNT;i++)
+        for (int i = 0; i < (int)eTileLayer.MAXCOUNT; i++)
         {
             List<MapObject> MapObjectList = new List<MapObject>();
             _MapObjectMap.Add(MapObjectList);
@@ -34,14 +36,28 @@ public class TileCell
         _postion.x = x;
         _postion.y = y;
     }
-    
-    public Vector2 GetPosition()
+
+    int _tileX;
+    int _tileY;
+
+    public int GetTileX()
     {
-        return _postion;
+        return _tileX;
+    }
+
+    public int GetTileY()
+    {
+        return _tileY;
+    }
+
+    public void SetTilePosition(Vector2 tilePosition)
+    {
+        _tileX = (int)tilePosition.x;
+        _tileY = (int)tilePosition.y;
     }
 
     //add / Remove
-    public void AddObject(eTileLayer layer,MapObject mapObject)
+    public void AddObject(eTileLayer layer, MapObject mapObject)
     {
         List<MapObject> mapObjectList = _MapObjectMap[(int)layer];
 
@@ -63,12 +79,12 @@ public class TileCell
 
     public bool CanMove()
     {
-        for(int layer=0; layer<(int)eTileLayer.MAXCOUNT;layer++)
+        for (int layer = 0; layer < (int)eTileLayer.MAXCOUNT; layer++)
         {
             List<MapObject> mapObject = _MapObjectMap[layer];
-            for(int i=0;i<mapObject.Count;i++)
-                if(false==mapObject[i].CanMove())
-            return false;
+            for (int i = 0; i < mapObject.Count; i++)
+                if (false == mapObject[i].CanMove())
+                    return false;
         }
         return true;
     }
@@ -98,10 +114,27 @@ public class TileCell
     public void SetPathFindingMark()
     {
         _ismarking = true;
+
+        _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     public bool IsPathFindingMark()
     {
         return _ismarking;
+    }
+
+    float distanceFromStart=0.0f;
+    float distanceWidght = 1.0f;
+    public float GetDistanceFromStart()
+    {
+        return distanceFromStart;
+    }
+    public float GetDistanceWidght()
+    {
+        return distanceWidght;
+    }
+    public void SetDistanceFromStart(float distance)
+    {
+        distanceFromStart = distance;
     }
 }

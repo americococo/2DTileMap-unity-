@@ -2,108 +2,131 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class Pathfinding : State
 {
-    struct sPathCommand
+    struct sPosition
     {
-        public TileCell tileCell;
-        public TileCell prevTileCell;
+        public int tileX;
+        public int tileY;
     }
 
 
-    Queue<sPathCommand> _pathfindingQueue = new Queue<sPathCommand>();
+    Queue<TileCell> _pathfindingQueue = new Queue<TileCell>();
 
+    public override void Stop()
+    {
+        base.Stop();
+
+        _pathfindingQueue.Clear();
+        _character.SetGoalTileCell(null);
+    }
 
     // Use this for initialization
     public override void Start()
     {
         base.Start();
 
-        //시작타일을 큐에 넣는다.
 
+        if (null == _character.getGoalTileCell())
+            _nextState = eStateType.IDLE;
+        else
+        {
+            TileMap map = GameManger.Instance.GetMap();
+            map.ResetPathfinding();
 
+            TileCell tileCell = _character.GetTileCell();
+            tileCell.prevTileCell = null;
 
-        //길찾기 변수 초기화
-        //시작지점 sPathCommand 만들어서 큐에 넣는다.
-
-        //목표 타일 가져옴
-
-        TileMap map = GameManger.Instance.GetMap();
-        map.ResetPathfinding();
-
-        sPathCommand startCmd;
-        startCmd.tileCell = _character.GetTileCell();
-        startCmd.prevTileCell = null;
-
-        _pathfindingQueue.Enqueue(startCmd);
+            _pathfindingQueue.Enqueue(tileCell);
+        }
     }
 
     // Update is called once per frame
     public override void Update()
     {
-        base.Update();
+        if (_nextState != eStateType.NONE)
+        {
+            _character.ChangeState(_nextState);
+
+        }
 
         //큐가 빌때까지 큐에 있는 커맨드패스를 커내 검사
         if (0 != _pathfindingQueue.Count)
         {
-            sPathCommand cmd = _pathfindingQueue.Dequeue();
+            TileCell tilecell = _pathfindingQueue.Dequeue();
 
             //캐맨드 검사
             //(커맨드에 포함됀 타일셀이 방문하지 않는 타일셀인경우)
-            if (true != cmd.tileCell.IsPathFindingMark())
+            if (false == tilecell.IsPathFindingMark())
             {
                 //방문 처리
-                cmd.tileCell.SetPathFindingMark();
+                tilecell.SetPathFindingMark();
 
                 //목표 도달시 종료 Idle상태로 전환
-                if (cmd.tileCell != _character.getGoalTileCell())
+                if (tilecell == _character.getGoalTileCell())
                 {
-                    int moveX=(int)cmd.tileCell.GetPosition().x;
-                    int moveY=(int) cmd.tileCell.GetPosition().y;
+                    Debug.Log("Finded");
 
-                    //4방향 검사
-                    for (int i = 0; i < (int)eMoveDirection.NONE; i++)
+                    TileCell MoveRootCell = tilecell;
+                    while (null != MoveRootCell.prevTileCell)
                     {
-                        switch ((eMoveDirection)i)
+                        _character.pushTilecell(MoveRootCell);
+                        MoveRootCell = MoveRootCell.prevTileCell;
+                    }
+
+                    _nextState = eStateType.MOVE;
+                    return;
+                }
+
+
+
+                for (int direction = (int)eMoveDirection.LEFT; direction < (int)eMoveDirection.NONE; direction++)
+                {
+                    sPosition position;
+                    position.tileX = tilecell.GetTileX();
+                    position.tileY = tilecell.GetTileY();
+                    sPosition nextPosition = GetPositopmByDirection(position, (eMoveDirection)direction);
+                    //tilecell를 찾기위해서 있는 좌표값
+
+                    if ((nextPosition.tileX >= 0) && (GameManger.Instance.GetMap().GetWidth() > nextPosition.tileX) &&
+                   (nextPosition.tileY >= 0) && (GameManger.Instance.GetMap().GetHeight() > nextPosition.tileY))
+                    {
+                        TileCell nextTileCell = GameManger.Instance.GetMap().GetTileCell(nextPosition.tileX, nextPosition.tileY);
+
+                        if (nextTileCell.CanMove() && false == nextTileCell.IsPathFindingMark())//이동 가능하며 탐색안한 타일만 큐에 넣엉줌
                         {
-                            case eMoveDirection.LEFT:
-                                moveX-=32;
-                                break;
-                            case eMoveDirection.RIGHT:
-                                moveX+=32;
-                                break;
-                            case eMoveDirection.UP:
-                                moveY+=32;
-                                break;
-                            case eMoveDirection.DOWN:
-                                moveY-=32;
-                                break;
+
+                            float distance = tilecell.GetDistanceFromStart() + nextTileCell.GetDistanceWidght();
+                            nextTileCell.SetDistanceFromStart(distance);
+                            // nextTileCell.PathFindingMarking();
+
+                            TileCell serchTileCell = nextTileCell;
+                            serchTileCell.prevTileCell = tilecell;
+                            _pathfindingQueue.Enqueue(serchTileCell);
                         }
-
-                        TileCell tileCell = GameManger.Instance.GetMap().GetTileCell(moveX / 32, moveY / 32);
-
-                        if(true==tileCell.CanMove()&& tileCell.IsPathFindingMark())
-                        {
-                            tileCell.SetPathFindingMark();
-                            sPathCommand newTileCmd;
-                            newTileCmd.prevTileCell = cmd.tileCell;
-                            newTileCmd.tileCell = tileCell;
-
-                            _pathfindingQueue.Enqueue(newTileCmd);
-                        }
-                        //각 방향별 타일셀 도출
-                        //canmove true && 방문 처리 안됀 타일
-                        //거리 값계산 (Hyrist)
-                        //새로운  커맨드를 만들어 큐에 넣어줌
-                        //이전 타일 세팅해줌
-                        //큐에 넣어줌
-                        //방향에 따라 찾은 타일 거리값 갱신 (hyrist)
                     }
                 }
-                else//목표 도달 했으므로 IDle 봔환
-                    _nextState = eStateType.IDLE;
             }
         }
     }
 
+    sPosition GetPositopmByDirection(sPosition position, eMoveDirection direction)
+    {
+        sPosition newposition = position;
+        switch (direction)
+        {
+            case eMoveDirection.LEFT:
+                newposition.tileX--; break;
+            case eMoveDirection.RIGHT:
+                newposition.tileX++; break;
+            case eMoveDirection.UP:
+                newposition.tileY++; break;
+            case eMoveDirection.DOWN:
+                newposition.tileY--; break;
+        }
+
+        return newposition;
+    }
 }

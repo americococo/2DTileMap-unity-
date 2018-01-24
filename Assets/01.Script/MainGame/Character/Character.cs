@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum eMoveDirection
 {
-    
+
     LEFT,
     RIGHT,
     UP,
@@ -36,7 +36,7 @@ public class Character : MapObject
         _state.Update();
 
 
-        
+
         UpdateAttackCoolTime();
 
         UpdateUI();
@@ -44,7 +44,7 @@ public class Character : MapObject
 
     }
 
-    TileCell _goalTIleCell=null;
+    TileCell _goalTIleCell = null;
 
     public void SetGoalTileCell(TileCell selectTilecell)
     {
@@ -128,7 +128,7 @@ public class Character : MapObject
         _chracterView.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
     }
 
-  
+
 
     eMoveDirection _nextDirection = eMoveDirection.NONE;
     public eMoveDirection GetNextDirection() { return _nextDirection; }
@@ -300,6 +300,22 @@ public class Character : MapObject
         slider.transform.localPosition = postion;
         slider.transform.localScale = Vector3.one;
 
+    }
+
+    Stack<TileCell> serchRoot = new Stack<TileCell>();
+
+    public void pushTilecell(TileCell Rootcell)
+    {
+        serchRoot.Push(Rootcell);
+    }
+
+    public Stack<TileCell> getRoot()
+    {
+        return serchRoot;
+    }
+    public void resetSerchRoot()
+    {
+        serchRoot.Clear();
     }
 }
 
