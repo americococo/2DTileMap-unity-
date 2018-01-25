@@ -12,6 +12,13 @@ public class Pathfinding : State
         public int tileY;
     }
 
+    struct sPathCommand
+    {
+        public TileCell tileCell;
+        public float heuristic;
+    }
+
+
     enum ePathState
     {
         PATH,
@@ -20,7 +27,7 @@ public class Pathfinding : State
 
 
 
-    Queue<TileCell> _pathfindingQueue = new Queue<TileCell>();
+    List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
 
     public override void Stop()
     {
@@ -35,7 +42,6 @@ public class Pathfinding : State
     {
         base.Start();
 
-
         if (null == _character.getGoalTileCell())
             _nextState = eStateType.IDLE;
         else
@@ -43,10 +49,10 @@ public class Pathfinding : State
             TileMap map = GameManger.Instance.GetMap();
             map.ResetPathfinding();
 
-            TileCell tileCell = _character.GetTileCell();
-            tileCell.prevTileCell = null;
-
-            _pathfindingQueue.Enqueue(tileCell);
+            sPathCommand cmd;
+            cmd.tileCell = _character.GetTileCell();
+            cmd.heuristic = 0.0f;
+            PushCommand(cmd);
         }
     }
 
@@ -58,7 +64,6 @@ public class Pathfinding : State
         if (_nextState != eStateType.NONE)
         {
             _character.ChangeState(_nextState);
-
         }
 
         switch (_pathState)
@@ -79,38 +84,32 @@ public class Pathfinding : State
         //큐가 빌때까지 큐에 있는 커맨드패스를 커내 검사
         if (0 != _pathfindingQueue.Count)
         {
-            TileCell tilecell = _pathfindingQueue.Dequeue();
+            sPathCommand cmd;
+            cmd = _pathfindingQueue[0];
+            _pathfindingQueue.RemoveAt(0);
 
             //캐맨드 검사
             //(커맨드에 포함됀 타일셀이 방문하지 않는 타일셀인경우)
-            if (false == tilecell.IsPathFindingMark())
+            if (false == cmd.tileCell.IsPathFindingMark())
             {
                 //방문 처리
-                tilecell.SetPathFindingMark();
+                cmd.tileCell.SetPathFindingMark();
 
                 //목표 도달시 종료 Idle상태로 전환
-                if (tilecell == _character.getGoalTileCell())
+                if (cmd.tileCell == _character.getGoalTileCell())
                 {
+
                     Debug.Log("Finded");
-
-                    //TileCell MoveRootCell = tilecell;
-                    //while (null != MoveRootCell.prevTileCell)
-                    //{
-                    //    _character.pushTilecell(MoveRootCell);
-                    //    MoveRootCell = MoveRootCell.prevTileCell;
-                    //}
-
-                    //_nextState = eStateType.MOVE;
                     _pathState = ePathState.BUILD;
-                    _reverce = tilecell;
+                    _reverce = cmd.tileCell;
                     return;
                 }
 
                 for (int direction = (int)eMoveDirection.LEFT; direction < (int)eMoveDirection.NONE; direction++)
                 {
                     sPosition position;
-                    position.tileX = tilecell.GetTileX();
-                    position.tileY = tilecell.GetTileY();
+                    position.tileX = cmd.tileCell.GetTileX();
+                    position.tileY = cmd.tileCell.GetTileY();
                     sPosition nextPosition = GetPositopmByDirection(position, (eMoveDirection)direction);
                     //tilecell를 찾기위해서 있는 좌표값
 
@@ -122,13 +121,35 @@ public class Pathfinding : State
                         if (nextTileCell.CanMove() && false == nextTileCell.IsPathFindingMark())//이동 가능하며 탐색안한 타일만 큐에 넣엉줌
                         {
 
-                            float distance = tilecell.GetDistanceFromStart() + nextTileCell.GetDistanceWidght();
-                            nextTileCell.SetDistanceFromStart(distance);
-                            // nextTileCell.PathFindingMarking();
+                            //float distanceFromStart = cmd.tileCell.GetDistanceFromStart() + nextTileCell.GetDistanceWidght();
+                            float heuristic = CalcSimpleHeuristic(cmd.tileCell, nextTileCell, _character.getGoalTileCell());
 
-                            TileCell serchTileCell = nextTileCell;
-                            serchTileCell.prevTileCell = tilecell;
-                            _pathfindingQueue.Enqueue(serchTileCell);
+                            if (null == nextTileCell.GetPrevfindingCell())
+                            {
+                                //.SetDistanceFromStart(distanceFromStart);
+                                nextTileCell.SetPrevPathfindingCell(cmd.tileCell);
+                                sPathCommand newCmd;
+                                newCmd.tileCell = nextTileCell;
+                                newCmd.heuristic = heuristic;
+                                PushCommand(newCmd);
+                            }
+
+                            else
+                            {
+                             //   if (heuristic < nextTileCell.Getheuristic())
+                                {
+                                  //  nextTileCell.SetDistanceFromStart(distanceFromStart);
+                                    // nextTileCell.PathFindingMarking();
+                                    nextTileCell.SetPrevPathfindingCell(cmd.tileCell);
+
+                                    sPathCommand newCmd;
+                                    newCmd.tileCell = nextTileCell;
+                                    newCmd.heuristic = heuristic;
+                                    //_pathfindingQueue.Enqueue(nextTileCell);
+                                    _pathfindingQueue.Add(newCmd);
+                                    PushCommand(newCmd);
+                                }
+                            }
                         }
                     }
                 }
@@ -136,15 +157,15 @@ public class Pathfinding : State
         }
     }
 
-    TileCell _reverce;
+    TileCell _reverce = null;
 
     void BuildUpdate()
     {
-        if(null != _reverce )
+        if (null != _reverce)
         {
             _character.pushPathfindingTileCell(_reverce);
             _reverce.ColorBackUp();
-            _reverce = _reverce.prevTileCell;
+            _reverce = _reverce.GetPrevfindingCell();
         }
         else
         {
@@ -168,5 +189,72 @@ public class Pathfinding : State
         }
 
         return newposition;
+    }
+
+    void PushCommand(sPathCommand command)
+    {
+        _pathfindingQueue.Add(command);
+
+        //sorting
+        _pathfindingQueue.Sort(delegate (sPathCommand a, sPathCommand b)
+        {
+            if (a.heuristic > b.heuristic) return 1;
+            if (a.heuristic < b.heuristic) return -1;
+            else return 0;
+        });
+    }
+
+    float CalcSimpleHeuristic(TileCell tileCell, TileCell nextTileCell, TileCell targetTileCell)
+    {
+        float heuristic = 0.0f;
+
+        int diffFromCurrent;
+        int diffFromNext;
+
+        // x 축
+        {
+            // 현재 타일부터 목표 까지의 거리를 구한다.
+            diffFromCurrent = tileCell.GetTileX() - targetTileCell.GetTileX();
+            if (diffFromCurrent < 0)
+                diffFromCurrent = -diffFromCurrent;
+
+            // 검사할 타일 부터 목표 까지의 거리를 구한다.
+            diffFromNext = nextTileCell.GetTileX() - targetTileCell.GetTileX();
+            if (diffFromNext < 0)
+                diffFromNext = -diffFromNext;
+
+            if (diffFromNext < diffFromCurrent)     // 검사할 타일이 현재 타일보다 목표와 더 가까우면
+            {
+                heuristic -= 1.0f;
+            }
+            else if (diffFromCurrent < diffFromNext)    // 현재 타일이 검사할 타일보다 목표와 더 가까우면
+            {
+                heuristic += 1.0f;
+            }
+        }
+
+        // y 축
+        {
+            // 현재 타일부터 목표 까지의 거리를 구한다.
+            diffFromCurrent = tileCell.GetTileY() - targetTileCell.GetTileY();
+            if (diffFromCurrent < 0)
+                diffFromCurrent = -diffFromCurrent;
+
+            // 검사할 타일 부터 목표 까지의 거리를 구한다.
+            diffFromNext = nextTileCell.GetTileY() - targetTileCell.GetTileY();
+            if (diffFromNext < 0)
+                diffFromNext = -diffFromNext;
+
+            if (diffFromNext < diffFromCurrent)     // 검사할 타일이 현재 타일보다 목표와 더 가까우면
+            {
+                heuristic -= 1.0f;
+            }
+            else if (diffFromCurrent < diffFromNext)    // 현재 타일이 검사할 타일보다 목표와 더 가까우면
+            {
+                heuristic += 1.0f;
+            }
+        }
+
+        return heuristic;
     }
 }

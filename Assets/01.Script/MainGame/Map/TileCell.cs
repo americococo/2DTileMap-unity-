@@ -19,7 +19,7 @@ public class TileCell
 
     List<List<MapObject>> _MapObjectMap = new List<List<MapObject>>();
 
-    public TileCell prevTileCell;
+
 
     public void Init()
     {
@@ -109,6 +109,8 @@ public class TileCell
     public void ResetPathfinding()
     {
         _ismarking = false;
+        _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        _prevTileCell = null;
     }
 
     public void SetPathFindingMark()
@@ -133,6 +135,7 @@ public class TileCell
     {
         return distanceWidght;
     }
+
     public void SetDistanceFromStart(float distance)
     {
         distanceFromStart = distance;
@@ -140,5 +143,23 @@ public class TileCell
     public void ColorBackUp()
     {
         _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    float _heuristic;
+
+    public float Getheuristic()
+    {
+        return _heuristic;
+    }
+
+    TileCell _prevTileCell;
+
+    public TileCell GetPrevfindingCell()
+    {
+        return _prevTileCell;
+    }
+    public void SetPrevPathfindingCell(TileCell prevTileCell)
+    {
+        _prevTileCell = prevTileCell;
     }
 }

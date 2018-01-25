@@ -279,10 +279,6 @@ public class Character : MapObject
         serchRoot.Push(Rootcell);
     }
 
-    public Stack<TileCell> getRoot()
-    {
-        return serchRoot;
-    }
     public void resetSerchRoot()
     {
         serchRoot.Clear();
@@ -292,12 +288,15 @@ public class Character : MapObject
     {
         if (0 == serchRoot.Count)
             return true;
-        return false;
+        else
+            return false;
     }
     public TileCell popPathFindingTileCell()
     {
         return serchRoot.Pop();
     }
+
+ 
 
     //UI
     Slider _hpGuage;
