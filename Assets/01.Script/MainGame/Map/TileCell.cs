@@ -105,6 +105,8 @@ public class TileCell
     public void ResetPathfinding()
     {
         marking = false;
+
+        _PrevfindingCell = null;
     }
 
     bool marking=false;
@@ -128,5 +130,21 @@ public class TileCell
     public void SetDistanceFromStart(float distance)
     {
         Distance = distance;
+    }
+   public void RestPathfindMark()
+    {
+        _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
+
+    TileCell _PrevfindingCell;
+
+    public void SetPrevPathfindingCell(TileCell tilecell)
+    {
+        _PrevfindingCell = tilecell;
+    }
+
+    public TileCell GetPrevfindingCell()
+    {
+        return _PrevfindingCell;
     }
 }

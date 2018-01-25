@@ -271,6 +271,30 @@ public class Character : MapObject
         return false;
     }
 
+    Stack<TileCell> serchRoot = new Stack<TileCell>();
+
+    public bool IsEmptyPathfindingTileCell()
+    {
+        if (0 != serchRoot.Count)
+            return false;
+        else
+            return true;
+    }
+        
+    public TileCell PopPathfindingTileCell()
+    {
+        return serchRoot.Pop();   
+    }
+
+    public void PushPathfindingTileCell(TileCell pathfindingTileCell)
+    {
+        serchRoot.Push(pathfindingTileCell);
+    }
+
+    public void clearPathfindingTileCell()
+    {
+        serchRoot.Clear();
+    }
 
     //UI
     Slider _hpGuage;
@@ -301,5 +325,6 @@ public class Character : MapObject
         slider.transform.localScale = Vector3.one;
 
     }
+
 }
 
