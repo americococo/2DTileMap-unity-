@@ -13,6 +13,12 @@ public class PathfindingTestMove : State
         CurrentTileCell = _character.getRoot();
         CurrentTileCell.Pop();
     }
+    public override void Stop()
+    {
+        base.Stop();
+
+        _character.resetSerchRoot();
+    }
 
     public override void Update()
     {
@@ -21,16 +27,13 @@ public class PathfindingTestMove : State
             _character.ChangeState(_nextState);
         }
 
-        TileCell tilecell = CurrentTileCell.Pop();
-
-        if (tilecell.CanMove())
+        if (true == _character.IsEmptyPathFindingTileCell())
         {
-            _character.MoveStart(tilecell.GetTileX(), tilecell.GetTileY());
+            TileCell tileCell = _character.popPathFindingTileCell();
+            _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
         }
-
-        if (tilecell.prevTileCell ==  _character.getGoalTileCell() )
+        else
         {
-            _character.resetSerchRoot();
             _nextState = eStateType.IDLE;
         }
     }

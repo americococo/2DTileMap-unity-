@@ -271,6 +271,33 @@ public class Character : MapObject
         return false;
     }
 
+    //Pathfind
+    Stack<TileCell> serchRoot = new Stack<TileCell>();
+
+    public void pushPathfindingTileCell(TileCell Rootcell)
+    {
+        serchRoot.Push(Rootcell);
+    }
+
+    public Stack<TileCell> getRoot()
+    {
+        return serchRoot;
+    }
+    public void resetSerchRoot()
+    {
+        serchRoot.Clear();
+    }
+
+    public bool IsEmptyPathFindingTileCell()
+    {
+        if (0 == serchRoot.Count)
+            return true;
+        return false;
+    }
+    public TileCell popPathFindingTileCell()
+    {
+        return serchRoot.Pop();
+    }
 
     //UI
     Slider _hpGuage;
@@ -302,20 +329,6 @@ public class Character : MapObject
 
     }
 
-    Stack<TileCell> serchRoot = new Stack<TileCell>();
 
-    public void pushTilecell(TileCell Rootcell)
-    {
-        serchRoot.Push(Rootcell);
-    }
-
-    public Stack<TileCell> getRoot()
-    {
-        return serchRoot;
-    }
-    public void resetSerchRoot()
-    {
-        serchRoot.Clear();
-    }
 }
 

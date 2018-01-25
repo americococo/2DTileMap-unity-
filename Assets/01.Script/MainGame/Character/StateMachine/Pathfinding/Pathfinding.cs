@@ -12,13 +12,20 @@ public class Pathfinding : State
         public int tileY;
     }
 
+    enum ePathState
+    {
+        PATH,
+        BUILD,
+    }
+
+
 
     Queue<TileCell> _pathfindingQueue = new Queue<TileCell>();
 
     public override void Stop()
     {
         base.Stop();
-
+        _pathState = ePathState.PATH;
         _pathfindingQueue.Clear();
         _character.SetGoalTileCell(null);
     }
@@ -43,6 +50,8 @@ public class Pathfinding : State
         }
     }
 
+    ePathState _pathState;
+
     // Update is called once per frame
     public override void Update()
     {
@@ -52,6 +61,21 @@ public class Pathfinding : State
 
         }
 
+        switch (_pathState)
+        {
+            case ePathState.PATH:
+                PathUpdate();
+                break;
+            case ePathState.BUILD:
+                BuildUpdate();
+                break;
+
+        }
+
+    }
+
+    void PathUpdate()
+    {
         //큐가 빌때까지 큐에 있는 커맨드패스를 커내 검사
         if (0 != _pathfindingQueue.Count)
         {
@@ -69,18 +93,18 @@ public class Pathfinding : State
                 {
                     Debug.Log("Finded");
 
-                    TileCell MoveRootCell = tilecell;
-                    while (null != MoveRootCell.prevTileCell)
-                    {
-                        _character.pushTilecell(MoveRootCell);
-                        MoveRootCell = MoveRootCell.prevTileCell;
-                    }
+                    //TileCell MoveRootCell = tilecell;
+                    //while (null != MoveRootCell.prevTileCell)
+                    //{
+                    //    _character.pushTilecell(MoveRootCell);
+                    //    MoveRootCell = MoveRootCell.prevTileCell;
+                    //}
 
-                    _nextState = eStateType.MOVE;
+                    //_nextState = eStateType.MOVE;
+                    _pathState = ePathState.BUILD;
+                    _reverce = tilecell;
                     return;
                 }
-
-
 
                 for (int direction = (int)eMoveDirection.LEFT; direction < (int)eMoveDirection.NONE; direction++)
                 {
@@ -109,6 +133,22 @@ public class Pathfinding : State
                     }
                 }
             }
+        }
+    }
+
+    TileCell _reverce;
+
+    void BuildUpdate()
+    {
+        if(null != _reverce )
+        {
+            _character.pushPathfindingTileCell(_reverce);
+            _reverce.ColorBackUp();
+            _reverce = _reverce.prevTileCell;
+        }
+        else
+        {
+            _nextState = eStateType.MOVE;
         }
     }
 

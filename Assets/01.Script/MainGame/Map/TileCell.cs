@@ -137,4 +137,8 @@ public class TileCell
     {
         distanceFromStart = distance;
     }
+    public void ColorBackUp()
+    {
+        _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+    }
 }
