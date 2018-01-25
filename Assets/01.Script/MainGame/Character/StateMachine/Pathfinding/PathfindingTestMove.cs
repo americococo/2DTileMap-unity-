@@ -28,7 +28,7 @@ public class PathfindingTestMove : State
             _character.MoveStart(tilecell.GetTileX(), tilecell.GetTileY());
         }
 
-        if (tilecell == _character.GetTileCell())
+        if (tilecell.prevTileCell ==  _character.getGoalTileCell() )
         {
             _character.resetSerchRoot();
             _nextState = eStateType.IDLE;
