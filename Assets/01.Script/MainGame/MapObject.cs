@@ -81,10 +81,13 @@ public class MapObject : MonoBehaviour
     protected int _tileX;
     protected int _tileY;
 
+    sPosition characterPosition;
+
     public int GetTileX()
     {
         return _tileX;
     }
+
     public int GetTileY()
     {
         return _tileY;

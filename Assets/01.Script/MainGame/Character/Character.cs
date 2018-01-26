@@ -296,8 +296,6 @@ public class Character : MapObject
         return serchRoot.Pop();
     }
 
- 
-
     //UI
     Slider _hpGuage;
     Slider _attackcoolTimeGuage;
