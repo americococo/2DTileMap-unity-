@@ -11,13 +11,7 @@ public class Pathfinding : State
         public float heuristic;
     }
     //타일셀로 
-
-    struct sPosition
-    {
-        public int x;
-        public int y;
-    }
-
+    
     enum eUpdateState
     {
         PATHFINDING,
@@ -54,7 +48,6 @@ public class Pathfinding : State
             cmd.tileCell = map.GetTileCell(_character.GetTileX(), _character.GetTileY());
             cmd.heuristic = 0;
 
-            // _pathfindingQueue.Add(cmd);
             PushCommand(cmd);
         }
         else
@@ -68,7 +61,6 @@ public class Pathfinding : State
         if (_nextState != eStateType.NONE)
         {
             _character.ChangeState(_nextState);
-
         }
 
         switch (_updateState)
@@ -80,12 +72,9 @@ public class Pathfinding : State
                 UpdateBuildPath();
                 break;
         }
-
-
-
     }
 
-    void UpdatePathfinding()
+    protected override void UpdatePathfinding()
     {
         //큐가 빌때까지 큐에 있는 커맨드패스를 커내 검사
         if (0 != _pathfindingQueue.Count)
@@ -126,37 +115,39 @@ public class Pathfinding : State
                     if (nextTileCell.CanMove() && false == nextTileCell.IsPathFindingMark())//이동 가능하며 탐색안한 타일만 큐에 넣엉줌
                     {
                         float distanceFromStart = cmd.tileCell.GetDistanceFromStart() + nextTileCell.GetDistanceWidght();
-                        if(null == nextTileCell.GetPrevfindingCell())
+                        //float heuristic = CalcSimpleHeuristic(cmd.tileCell, nextTileCell, _character.getGoalTileCell());// 현타일과 다음타일 을 목표타일로 부터 좌표 비교
+                        //float heuristic = CalcComplexcHeuristic(nextTileCell, _character.getGoalTileCell());//거리과 가까운지 최단거리
+                        float heuristic = CalcAStarHeuristic(distanceFromStart, nextTileCell, _character.getGoalTileCell()); //시작점으로 부터 얼마나 가까운가 + 얼마나 목적지까지 가까운가
+
+                        if (null == nextTileCell.GetPrevfindingCell())
                         {
                             nextTileCell.SetDistanceFromStart(distanceFromStart);
                             nextTileCell.SetPrevPathfindingCell(cmd.tileCell);
                             sPathCommand newCmd;
                             newCmd.tileCell = nextTileCell;
-                            newCmd.heuristic = distanceFromStart;
-                            // _pathfindingQueue.Enqueue(nextTileCell);
-                            //_pathfindingQueue.Add(newCmd);
+                            
+                            newCmd.heuristic = heuristic;
+                            
                             PushCommand(newCmd);
                         }
 
                         else
                         {
-                            if(distanceFromStart < nextTileCell.GetDistanceFromStart())
+                            if (distanceFromStart < nextTileCell.GetDistanceFromStart())
                             {
                                 nextTileCell.SetDistanceFromStart(direction);
-                                // nextTileCell.PathFindingMarking();
                                 nextTileCell.SetPrevPathfindingCell(cmd.tileCell);
 
                                 sPathCommand newCmd;
                                 newCmd.tileCell = nextTileCell;
-                                newCmd.heuristic = distanceFromStart;
-                                //_pathfindingQueue.Enqueue(nextTileCell);
-                                _pathfindingQueue.Add(newCmd);
+                                
+                                newCmd.heuristic = heuristic;
                                 PushCommand(newCmd);
                             }
                         }
-                        
+
                     }
-                    
+
                 }
 
             }
@@ -179,6 +170,7 @@ public class Pathfinding : State
             _nextState = eStateType.MOVE;
         }
     }
+
     sPosition GetPositopmByDirection(sPosition position, int direction)
     {
         sPosition newPosition = position;
@@ -201,11 +193,93 @@ public class Pathfinding : State
         return newPosition;
     }
 
-    void PushCommand(sPathCommand command)
+    void PushCommand(sPathCommand command)//가중치 부여 서포트
     {
         _pathfindingQueue.Add(command);
 
         //sorting
-        _pathfindingQueue.Sort();
+        _pathfindingQueue.Sort(delegate (sPathCommand a, sPathCommand b)
+        {
+            return a.heuristic.CompareTo(b.heuristic);
+        });
     }
+    float CalcSimpleHeuristic(TileCell tileCell, TileCell nextTileCell, TileCell targetTileCell)
+    {
+        //현재타일과 목표타일까지 거리 와
+        //다음타일과 목표타일까지 거리 비교
+        //더 좋은좌표값에 높은 가중치 부여
+
+        float heuristic = 0.0f;
+
+        int diffFromCurrent;
+        int diffFromNext;
+
+        // x 축
+
+        {
+            //현재 타일과 목표 차이비교
+            diffFromCurrent = tileCell.GetTileX() - targetTileCell.GetTileX();
+
+            if (diffFromCurrent < 0)
+                diffFromCurrent = -diffFromCurrent;
+
+            //다음에 갈타일과 목표  차이 비교
+            diffFromNext = nextTileCell.GetTileX() - targetTileCell.GetTileX();
+            if (diffFromNext < 0)
+                diffFromNext = -diffFromNext;
+
+            if (diffFromNext < diffFromCurrent)
+            {
+                heuristic -= 1.0f;
+            }
+            else if (diffFromCurrent < diffFromNext)   
+            {
+                heuristic += 1.0f;
+            }
+        }
+
+        // y 축
+        {
+            diffFromCurrent = tileCell.GetTileY() - targetTileCell.GetTileY();
+            if (diffFromCurrent < 0)
+                diffFromCurrent -= diffFromCurrent;
+
+            diffFromNext = nextTileCell.GetTileY() - targetTileCell.GetTileY();
+            if (diffFromNext < 0)
+                diffFromNext = -diffFromNext;
+
+            if (diffFromNext < diffFromCurrent)
+            {
+                heuristic -= 1.0f;
+            }
+            else if (diffFromCurrent < diffFromNext)
+            {
+                heuristic += 1.0f;
+            }
+        }
+
+        return heuristic;
+    }
+
+    float CalcComplexcHeuristic(TileCell  nextTilecell, TileCell targetTileCell)
+    {
+
+        int distanceW = nextTilecell.GetTileX() - targetTileCell.GetTileX();
+
+        int distanceH = nextTilecell.GetTileY() - targetTileCell.GetTileY();
+
+        distanceH *= distanceH;
+        distanceW *= distanceW;
+
+        float distance = (float)((double)distanceH + (double)distanceW);
+
+        //distance /= distance;
+        return distance;
+    }
+
+    float CalcAStarHeuristic(float distanceFromStart, TileCell nextTilecell, TileCell targetTileCell)
+    {
+        return distanceFromStart + CalcComplexcHeuristic(nextTilecell, targetTileCell);
+    }
+
 }

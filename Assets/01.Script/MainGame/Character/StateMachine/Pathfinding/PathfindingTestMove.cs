@@ -14,6 +14,20 @@ public class PathfindingTestMove : State
         if( false == _character.IsEmptyPathfindingTileCell() )
         {
             TileCell tileCell = _character.PopPathfindingTileCell();
+
+            sPosition Curposition;
+            Curposition.x =  _character.GetTileCell().GetTileX();
+            Curposition.y = _character.GetTileCell().GetTileY();
+
+            sPosition toPosition;
+            toPosition.x = tileCell.GetTileX();
+            toPosition.y = tileCell.GetTileY();
+
+            eMoveDirection direction = GetDirection(toPosition, Curposition);
+
+            _character.SetNextDirection(direction);
+
+
             _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
         }
         else
@@ -33,5 +47,21 @@ public class PathfindingTestMove : State
         base.Stop();
 
         _character.clearPathfindingTileCell();
+    }
+
+    eMoveDirection GetDirection(sPosition to,sPosition cur)
+    {
+        eMoveDirection directionbe= eMoveDirection.NONE;
+
+        if (cur.x < to.x)
+            directionbe = eMoveDirection.RIGHT; 
+        if (cur.x > to.x)
+            directionbe = eMoveDirection.LEFT;
+        if (cur.y < to.y)
+            directionbe = eMoveDirection.UP;
+        if (cur.y > to.y)
+            directionbe = eMoveDirection.DOWN;
+
+        return directionbe;
     }
 }
