@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class Monster : Character
 {
+    private void Awake()
+    {
+        _attackPoint = 5;
+        _ObjectType = eMapObjectType.CHARACTER;
+    }
+
     void Start()
     {
-        _ObjectType = eMapObjectType.MONSTER;
+        
     }
 
 

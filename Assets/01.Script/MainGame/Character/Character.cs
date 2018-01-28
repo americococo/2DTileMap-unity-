@@ -147,7 +147,8 @@ public class Character : MapObject
                 Debug.Log("Damage: " + _hp);
                 break;
             case "WAR":
-                _state.NextState(eStateType.WAR);
+                
+                Debug.Log("전투가 시작됌");
                 break;
         }
 
@@ -159,7 +160,8 @@ public class Character : MapObject
         messageParam.sender = this;
         messageParam.receiver = Ene;
         messageParam.message = "WAR";
-        
+
+        messageSystem.Instance.Send(messageParam);
     }
 
     //attack

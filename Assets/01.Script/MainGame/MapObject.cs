@@ -5,7 +5,7 @@ using UnityEngine;
 public enum eMapObjectType
 {
     NONE,
-    MONSTER
+    CHARACTER,
 }
 
 

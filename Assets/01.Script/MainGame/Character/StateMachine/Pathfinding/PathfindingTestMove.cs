@@ -37,7 +37,7 @@ public class PathfindingTestMove : State
             toPostion.tileX = tileCell.GetTileX();
             toPostion.tileY = tileCell.GetTileY();
 
-            eMoveDirection direction = getMoveDirection(CurPostion,toPostion);
+            eMoveDirection direction = getMoveDirection(CurPostion, toPostion);
             _character.SetNextDirection(direction);
 
             bool Canmove = tileCell.CanMove();
@@ -51,35 +51,38 @@ public class PathfindingTestMove : State
                 _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
                 List<MapObject> collisionList = GameManger.Instance.GetMap().GetCollisionList(tileCell.GetTileX(), tileCell.GetTileY());
                 for (int i = 0; i < collisionList.Count; i++)
-                    if (eMapObjectType.MONSTER == collisionList[i].GetObjectType())
+                {
+                    if (eMapObjectType.CHARACTER == collisionList[i].GetObjectType())
                     {
-                         _nextState = eStateType.WAR;
-                        
+                        _nextState = eStateType.WAR;
+
                         break;
                     }
+                }
             }
         }
+    
         else
         {
             _nextState = eStateType.IDLE;
         }
     }
 
-    eMoveDirection getMoveDirection(sPosition CurPostion,sPosition toPostion)
-    {
-        eMoveDirection signalDirection=eMoveDirection.NONE;
+    eMoveDirection getMoveDirection(sPosition CurPostion, sPosition toPostion)
+{
+    eMoveDirection signalDirection = eMoveDirection.NONE;
 
-        if (CurPostion.tileX > toPostion.tileX)
-            signalDirection = eMoveDirection.LEFT;
-        if (toPostion.tileX > CurPostion.tileX)
-            signalDirection = eMoveDirection.RIGHT;
+    if (CurPostion.tileX > toPostion.tileX)
+        signalDirection = eMoveDirection.LEFT;
+    if (toPostion.tileX > CurPostion.tileX)
+        signalDirection = eMoveDirection.RIGHT;
 
-        if (CurPostion.tileY > toPostion.tileY)
-            signalDirection = eMoveDirection.DOWN;
+    if (CurPostion.tileY > toPostion.tileY)
+        signalDirection = eMoveDirection.DOWN;
 
-        if (toPostion.tileY > CurPostion.tileY  )
-            signalDirection = eMoveDirection.UP;
+    if (toPostion.tileY > CurPostion.tileY)
+        signalDirection = eMoveDirection.UP;
 
-        return signalDirection;
-    }
+    return signalDirection;
+}
 }

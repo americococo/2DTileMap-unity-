@@ -30,7 +30,7 @@ public class PathfindingIdle : State
                     List<MapObject> mapCollision = map.GetCollisionList(GoalCell.GetTileX(), GoalCell.GetTileY());
                     if (0 != mapCollision.Count)
                     {
-                        if (eMapObjectType.MONSTER == mapCollision[0].GetObjectType())
+                        if (eMapObjectType.CHARACTER == mapCollision[0].GetObjectType())
                         {
                             _character.SetGoalTileCell(GoalCell);
                         }

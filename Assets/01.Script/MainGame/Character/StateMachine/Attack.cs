@@ -36,7 +36,7 @@ public class Attack : State
         {
             switch (collisionList[i].GetObjectType())
             {
-                case eMapObjectType.MONSTER:
+                case eMapObjectType.CHARACTER:
                     _character.Attack(collisionList[i]);
                     break;
             }
