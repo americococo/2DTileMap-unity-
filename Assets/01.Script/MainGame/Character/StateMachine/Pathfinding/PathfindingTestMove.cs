@@ -40,13 +40,31 @@ public class PathfindingTestMove : State
             eMoveDirection direction = getMoveDirection(CurPostion,toPostion);
             _character.SetNextDirection(direction);
 
-            _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+            bool Canmove = tileCell.CanMove();
+
+            if (Canmove)
+            {
+                _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+            }
+            else
+            {
+                _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+                List<MapObject> collisionList = GameManger.Instance.GetMap().GetCollisionList(tileCell.GetTileX(), tileCell.GetTileY());
+                for (int i = 0; i < collisionList.Count; i++)
+                    if (eMapObjectType.MONSTER == collisionList[i].GetObjectType())
+                    {
+                         _nextState = eStateType.WAR;
+                        
+                        break;
+                    }
+            }
         }
         else
         {
             _nextState = eStateType.IDLE;
         }
     }
+
     eMoveDirection getMoveDirection(sPosition CurPostion,sPosition toPostion)
     {
         eMoveDirection signalDirection=eMoveDirection.NONE;

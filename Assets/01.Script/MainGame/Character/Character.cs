@@ -35,10 +35,7 @@ public class Character : MapObject
         //    return;
         _state.Update();
 
-
-
         UpdateAttackCoolTime();
-
         UpdateUI();
 
 
@@ -110,7 +107,11 @@ public class Character : MapObject
             state.Init(this);
             _stateMap[eStateType.DEATH] = state;
         }
-
+        {
+            State state = new WAR();
+            state.Init(this);
+            _stateMap[eStateType.WAR] = state;
+        }
         _state = _stateMap[eStateType.IDLE];
     }
 
@@ -140,13 +141,25 @@ public class Character : MapObject
     {
         switch (messageParam.message)
         {
-            case "Attack":
+            case "ATTACK":
                 _damagePoint = messageParam.attackpoint;
                 _state.NextState(eStateType.DAMAGE);
                 Debug.Log("Damage: " + _hp);
                 break;
+            case "WAR":
+                _state.NextState(eStateType.WAR);
+                break;
         }
 
+    }
+
+    public void War(MapObject Ene)
+    {
+        ObjectMessageParam messageParam = new ObjectMessageParam();
+        messageParam.sender = this;
+        messageParam.receiver = Ene;
+        messageParam.message = "WAR";
+        
     }
 
     //attack
@@ -158,7 +171,7 @@ public class Character : MapObject
         messageParam.sender = this;
         messageParam.receiver = Ene;
         messageParam.attackpoint = _attackPoint;
-        messageParam.message = "Attack";
+        messageParam.message = "ATTACK";
 
         messageSystem.Instance.Send(messageParam);
     }
@@ -169,7 +182,7 @@ public class Character : MapObject
     float _attackCoolTime = 0.5f;
     float _deltaAttackCoolTime = 0.0f;
 
-    void UpdateAttackCoolTime()
+    public void UpdateAttackCoolTime()
     {
         if (_deltaAttackCoolTime <= _attackCoolTime)
             _deltaAttackCoolTime += Time.deltaTime;

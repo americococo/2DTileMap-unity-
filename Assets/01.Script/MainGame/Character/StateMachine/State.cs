@@ -11,6 +11,7 @@ public enum eStateType
     DEATH,
     NONE,
     PATHFINDING,
+    WAR
 }
 
 public class State
@@ -20,7 +21,6 @@ public class State
         if (_nextState != eStateType.NONE)
         {
             _character.ChangeState(_nextState);
-            
         }
     }
 

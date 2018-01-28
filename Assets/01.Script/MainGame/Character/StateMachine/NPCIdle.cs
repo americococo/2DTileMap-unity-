@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class NPCIdle : State
 {
-    
-    
+    public override void Update()
+    {
+        base.Update ();
+    }
+
 }

@@ -24,9 +24,7 @@ public class Pathfinding : State
         PATH,
         BUILD,
     }
-
-
-
+    
     protected List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
 
     public override void Stop()
@@ -118,7 +116,7 @@ public class Pathfinding : State
                     {
                         TileCell nextTileCell = GameManger.Instance.GetMap().GetTileCell(nextPosition.tileX, nextPosition.tileY);
 
-                        if (nextTileCell.CanMove() && false == nextTileCell.IsPathFindingMark())//이동 가능하며 탐색안한 타일만 큐에 넣엉줌
+                        if (nextTileCell.CanMove()&& false == nextTileCell.IsPathFindingMark()|| nextTileCell==_character.getGoalTileCell())//이동 가능하며 탐색안한 타일만 큐에 넣엉줌
                         {
 
                             float distanceFromStart = cmd.tileCell.GetDistanceFromStart() + nextTileCell.GetDistanceWidght();

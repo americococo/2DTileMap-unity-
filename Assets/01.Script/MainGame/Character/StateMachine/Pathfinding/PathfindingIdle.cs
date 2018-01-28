@@ -13,19 +13,28 @@ public class PathfindingIdle : State
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            
+
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 100))
             {
-                MapObject mapObject = hit.collider.GetComponent<MapObject>();
+                MapObject mapObject = hit.collider.gameObject.GetComponent<MapObject>();
                 if (null != mapObject)
                 {
                     hit.collider.GetComponent<SpriteRenderer>().color = Color.black;
 
-                    TileCell GoalCell = GameManger.Instance.GetMap().GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());
-                    //Debug.Log("찾음" + GoalCell.ToString());
+                    TileMap map = GameManger.Instance.GetMap();
 
+                    TileCell GoalCell = map.GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());
+                    //Debug.Log("찾음" + GoalCell.ToString());
+                    List<MapObject> mapCollision = map.GetCollisionList(GoalCell.GetTileX(), GoalCell.GetTileY());
+                    if (0 != mapCollision.Count)
+                    {
+                        if (eMapObjectType.MONSTER == mapCollision[0].GetObjectType())
+                        {
+                            _character.SetGoalTileCell(GoalCell);
+                        }
+                    }
                     _character.SetGoalTileCell(GoalCell);
                 }
 

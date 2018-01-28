@@ -8,7 +8,9 @@ public class Attack : State
     override public void Start()
     {
         base.Start();
+        Debug.Log("ATK");
 
+        _character.UpdateAttackCoolTime();
         int moveX = _character.GetTileX();
         int moveY = _character.GetTileY();
 
