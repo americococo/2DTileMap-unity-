@@ -23,9 +23,10 @@ public class PathfindingIdle : State
                     if(eMapObjectType.TILE_OBJECT == mapObject.GetObjectType())
                     { 
                         hit.collider.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
-
+                        
                         TileCell selectTilecell = GameManger.Instance.GetMap().GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());
-                        _character.SetGoalTileCell(selectTilecell);
+                        if (true == selectTilecell.IsPathfindable())
+                            _character.SetGoalTileCell(selectTilecell);
                     }
                 }
             }

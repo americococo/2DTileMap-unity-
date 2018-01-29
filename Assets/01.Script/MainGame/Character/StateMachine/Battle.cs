@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : State
+public class Battle : State
 {
 
-    override public void Start()
+    public override void Start()
     {
         base.Start();
-
+        Debug.Log(_character);
+    }
+    public override void Update()
+    {
         int moveX = _character.GetTileX();
         int moveY = _character.GetTileY();
 
@@ -27,21 +30,26 @@ public class Attack : State
                 moveY--;
                 break;
         }
-
         TileMap map = GameManger.Instance.GetMap();
         List<MapObject> collisionList = map.GetCollisionList(moveX, moveY);
+
         for (int i = 0; i < collisionList.Count; i++)
         {
             switch (collisionList[i].GetObjectType())
             {
                 case eMapObjectType.CHARACTER:
-                    _character.Attack(collisionList[i]);
+                    if (_character.IsAttackAble())
+                    {
+                        _character.Attack(collisionList[i]);
+                        if (false== ((Character)collisionList[i]).Islive())
+                        {
+                            Debug.Log(collisionList[i].GetTileX().ToString() + collisionList[i].GetTileY().ToString());
+                            _nextState = eStateType.IDLE;
+                        }
+                    }
                     break;
             }
         }
-
-        _character.SetNextDirection(eMoveDirection.NONE);
-        _nextState = eStateType.IDLE;
     }
 
 }

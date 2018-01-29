@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathfindingImmation : Pathfinding {
+public class PathfindingImmation : Pathfinding
+{
 
     override protected void UpdatePathfinding()
     {
         base.UpdatePathfinding();
 
-        while(0!= _queue.count)
+        while (0 != _pathfindingQueue.Count)
         {
-            pathfinding();
+            UpdatePathfinding();
         }
 
-        while(null!= _reverce)
+        while (null != _reverseTileCell)
         {
             UpdateBuildPath();
         }

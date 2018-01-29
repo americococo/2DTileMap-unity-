@@ -30,17 +30,15 @@ public class Character : MapObject
     // Update is called once per frame
     void Update()
     {
+        if (eStateType.NONE != _state.GetNextState())
+            ChangeState(_state.GetNextState());
 
-        //if (false == _isLive)
-        //    return;
+
         _state.Update();
 
-
-        
         UpdateAttackCoolTime();
-
+        
         UpdateUI();
-
 
     }
 
@@ -110,6 +108,11 @@ public class Character : MapObject
             state.Init(this);
             _stateMap[eStateType.DEATH] = state;
         }
+        {
+            State state = new Battle();
+            state.Init(this);
+            _stateMap[eStateType.BATTLE] = state;
+        }
 
         _state = _stateMap[eStateType.IDLE];
     }
@@ -134,6 +137,21 @@ public class Character : MapObject
     public eMoveDirection GetNextDirection() { return _nextDirection; }
     public void SetNextDirection(eMoveDirection nextDirection) { _nextDirection = nextDirection; }
 
+    public eMoveDirection GetDirection(sPosition to, sPosition cur)
+    {
+        eMoveDirection directionbe = eMoveDirection.NONE;
+
+        if (cur.x < to.x)
+            directionbe = eMoveDirection.RIGHT;
+        if (cur.x > to.x)
+            directionbe = eMoveDirection.LEFT;
+        if (cur.y < to.y)
+            directionbe = eMoveDirection.UP;
+        if (cur.y > to.y)
+            directionbe = eMoveDirection.DOWN;
+
+        return directionbe;
+    }
 
     //message
     override public void ReceiverObjcectMessage(ObjectMessageParam messageParam)
@@ -143,11 +161,30 @@ public class Character : MapObject
             case "Attack":
                 _damagePoint = messageParam.attackpoint;
                 _state.NextState(eStateType.DAMAGE);
-                Debug.Log("Damage: " + _hp);
+
+
+                sPosition senderTile;
+                senderTile.x = messageParam.sender.GetTileX();
+                senderTile.y = messageParam.sender.GetTileY();
+
+                sPosition myTile;
+                myTile.x = _tileX;
+                myTile.y = _tileY;
+
+                SetNextDirection(GetDirection(senderTile, myTile)) ;
+                _chracterView.GetComponent<Animator>().SetTrigger(GetNextDirection().ToString());
+
+                //Debug.Log("character " + );
                 break;
         }
 
     }
+
+    public State getstateType()
+    {
+        return _state;
+    }
+
 
     //attack
     public void Attack(MapObject Ene)
@@ -226,7 +263,7 @@ public class Character : MapObject
     }
 
     //State
-    public void ChangeState(eStateType nextstate)
+    private void ChangeState(eStateType nextstate)
     {
         if (null != _state)
             _state.Stop();
@@ -237,21 +274,21 @@ public class Character : MapObject
 
     public bool MoveStart(int tileX, int tileY)
     {
-        string animationTrigger = "Up";
+        string animationTrigger = "UP";
 
         switch (_nextDirection)
         {
             case eMoveDirection.LEFT:
-                animationTrigger = "Left";
+                animationTrigger = "LEFT";
                 break;
             case eMoveDirection.RIGHT:
-                animationTrigger = "Right";
+                animationTrigger = "RIGHT";
                 break;
             case eMoveDirection.UP:
-                animationTrigger = "Up";
+                animationTrigger = "UP";
                 break;
             case eMoveDirection.DOWN:
-                animationTrigger = "Down";
+                animationTrigger = "DOWN";
                 break;
         }
 

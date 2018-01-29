@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pathfinding : State
 {
-    struct sPathCommand
+   protected struct sPathCommand
     {
         public TileCell tileCell;
         //public TileCell prevTileCell;
@@ -20,7 +20,7 @@ public class Pathfinding : State
 
     eUpdateState _updateState = eUpdateState.PATHFINDING;
 
-    List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
+    protected List<sPathCommand> _pathfindingQueue = new List<sPathCommand>();
 
     public override void Stop()
     {
@@ -58,10 +58,7 @@ public class Pathfinding : State
     // Update is called once per frame
     public override void Update()
     {
-        if (_nextState != eStateType.NONE)
-        {
-            _character.ChangeState(_nextState);
-        }
+
 
         switch (_updateState)
         {
@@ -74,7 +71,7 @@ public class Pathfinding : State
         }
     }
 
-    protected override void UpdatePathfinding()
+    protected virtual void UpdatePathfinding()
     {
         //큐가 빌때까지 큐에 있는 커맨드패스를 커내 검사
         if (0 != _pathfindingQueue.Count)
@@ -112,7 +109,7 @@ public class Pathfinding : State
 
                     TileCell nextTileCell = GameManger.Instance.GetMap().GetTileCell(nextPosition.x, nextPosition.y);
 
-                    if (nextTileCell.CanMove() && false == nextTileCell.IsPathFindingMark())//이동 가능하며 탐색안한 타일만 큐에 넣엉줌
+                    if (nextTileCell.IsPathfindable() && false == nextTileCell.IsPathFindingMark())//이동 가능하며 탐색안한 타일만 큐에 넣엉줌
                     {
                         float distanceFromStart = cmd.tileCell.GetDistanceFromStart() + nextTileCell.GetDistanceWidght();
                         //float heuristic = CalcSimpleHeuristic(cmd.tileCell, nextTileCell, _character.getGoalTileCell());// 현타일과 다음타일 을 목표타일로 부터 좌표 비교
@@ -155,9 +152,9 @@ public class Pathfinding : State
     }
 
 
-    TileCell _reverseTileCell = null;
+    protected TileCell _reverseTileCell = null;
 
-    void UpdateBuildPath()
+    protected void UpdateBuildPath()
     {
         if (null != _reverseTileCell)
         {

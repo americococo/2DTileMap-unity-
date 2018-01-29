@@ -11,17 +11,14 @@ public enum eStateType
     DEATH,
     NONE,
     PATHFINDING,
+    BATTLE
 }
 
 public class State
 {
     virtual public void Update()
     {
-        if (_nextState != eStateType.NONE)
-        {
-            _character.ChangeState(_nextState);
-            
-        }
+
     }
 
     public void Init(Character character)
@@ -44,5 +41,11 @@ public class State
     {
         _nextState = nextState;
     }
+
+    public eStateType GetNextState()
+    {
+        return _nextState;
+    }
+        
 
 }

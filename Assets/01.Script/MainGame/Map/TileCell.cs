@@ -17,17 +17,17 @@ public class TileCell
     Vector2 _postion;
 
     List<List<MapObject>> _MapObjectMap = new List<List<MapObject>>();
-    
+
 
     public void Init()
     {
-        for(int i=0;i<(int)eTileLayer.MAXCOUNT;i++)
+        for (int i = 0; i < (int)eTileLayer.MAXCOUNT; i++)
         {
             List<MapObject> MapObjectList = new List<MapObject>();
             _MapObjectMap.Add(MapObjectList);
         }
 
-       
+
     }
 
 
@@ -58,7 +58,7 @@ public class TileCell
 
 
     //add / Remove
-    public void AddObject(eTileLayer layer,MapObject mapObject)
+    public void AddObject(eTileLayer layer, MapObject mapObject)
     {
         List<MapObject> mapObjectList = _MapObjectMap[(int)layer];
 
@@ -80,12 +80,12 @@ public class TileCell
 
     public bool CanMove()
     {
-        for(int layer=0; layer<(int)eTileLayer.MAXCOUNT;layer++)
+        for (int layer = 0; layer < (int)eTileLayer.MAXCOUNT; layer++)
         {
             List<MapObject> mapObject = _MapObjectMap[layer];
-            for(int i=0;i<mapObject.Count;i++)
-                if(false==mapObject[i].CanMove())
-            return false;
+            for (int i = 0; i < mapObject.Count; i++)
+                if (false == mapObject[i].CanMove())
+                    return false;
         }
         return true;
     }
@@ -109,7 +109,7 @@ public class TileCell
         _PrevfindingCell = null;
     }
 
-    bool marking=false;
+    bool marking = false;
 
     public bool IsPathFindingMark()
     {
@@ -122,8 +122,8 @@ public class TileCell
         _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
     }
 
-    float Distance=0.0f;
-    float distanceWidthght=1.0f;
+    float Distance = 0.0f;
+    float distanceWidthght = 1.0f;
 
     public float GetDistanceFromStart() { return Distance; }
     public float GetDistanceWidght() { return distanceWidthght; }
@@ -131,7 +131,7 @@ public class TileCell
     {
         Distance = distance;
     }
-   public void RestPathfindMark()
+    public void RestPathfindMark()
     {
         _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
@@ -147,4 +147,20 @@ public class TileCell
     {
         return _PrevfindingCell;
     }
+
+    public bool IsPathfindable()
+    {
+        for (int layer = 0; layer < (int)eTileLayer.MAXCOUNT; layer++)
+        {
+            List<MapObject> mapObject = _MapObjectMap[layer];
+            for (int i = 0; i < mapObject.Count; i++)
+            {
+                if (eMapObjectType.CHARACTER != mapObject[i].GetObjectType())
+                    if (false == mapObject[i].CanMove()) 
+                    return false;
+            }
+        }
+        return true;
+    }
+
 }
