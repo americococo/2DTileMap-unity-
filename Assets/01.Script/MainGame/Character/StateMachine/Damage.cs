@@ -18,7 +18,10 @@ public class Damage : State
             _nextState = eStateType.DEATH;
         }
         else
-            _nextState = eStateType.IDLE;
+        {
+            _nextState = eStateType.WAR;
+            
+        }
     }
 
 }

@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-struct sPosition
-{
-    public int tileX;
-    public int tileY;
-}
 
 public class Pathfinding : State
 {

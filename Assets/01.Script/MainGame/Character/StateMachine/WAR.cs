@@ -6,18 +6,18 @@ public class WAR : State
 {
     public override void Update()
     {
-        if (_nextState != eStateType.NONE)
-        {
-            _character.ChangeState(_nextState);
-        }
-
-        _nextState = eStateType.IDLE;
+       
     }
     Character Enemy;
 
     public override void Start()
     {
         base.Start();
+
+        if (_nextState != eStateType.NONE)
+        {
+            _character.ChangeState(_nextState);
+        }
 
         int moveX = _character.GetTileX();
         int moveY = _character.GetTileY();
@@ -46,10 +46,20 @@ public class WAR : State
             {
                 case eMapObjectType.CHARACTER:
                     Enemy = (Character)collisionList[i];
-                    _character.War(collisionList[i]);
+                    if (_character.IsAttackAble())
+                    {
+                        Enemy = (Character)collisionList[i];
+                        _character.Attack(collisionList[i]);
+                        if (false == Enemy.Islive())
+                        {
+                            _nextState = eStateType.IDLE;
+                            break;
+                        }
+                    }
                     break;
             }
         }
+        _nextState = eStateType.IDLE;
 
     }
 }

@@ -37,7 +37,7 @@ public class PathfindingTestMove : State
             toPostion.tileX = tileCell.GetTileX();
             toPostion.tileY = tileCell.GetTileY();
 
-            eMoveDirection direction = getMoveDirection(CurPostion, toPostion);
+            eMoveDirection direction = _character.getMoveDirection(CurPostion, toPostion);
             _character.SetNextDirection(direction);
 
             bool Canmove = tileCell.CanMove();
@@ -61,28 +61,12 @@ public class PathfindingTestMove : State
                 }
             }
         }
-    
+
         else
         {
             _nextState = eStateType.IDLE;
         }
     }
 
-    eMoveDirection getMoveDirection(sPosition CurPostion, sPosition toPostion)
-{
-    eMoveDirection signalDirection = eMoveDirection.NONE;
-
-    if (CurPostion.tileX > toPostion.tileX)
-        signalDirection = eMoveDirection.LEFT;
-    if (toPostion.tileX > CurPostion.tileX)
-        signalDirection = eMoveDirection.RIGHT;
-
-    if (CurPostion.tileY > toPostion.tileY)
-        signalDirection = eMoveDirection.DOWN;
-
-    if (toPostion.tileY > CurPostion.tileY)
-        signalDirection = eMoveDirection.UP;
-
-    return signalDirection;
-}
+   
 }

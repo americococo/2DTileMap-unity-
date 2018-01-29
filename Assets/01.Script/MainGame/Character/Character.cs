@@ -14,6 +14,11 @@ public enum eMoveDirection
 }
 
 
+public struct sPosition
+{
+    public int tileX;
+    public int tileY;
+}
 
 
 public class Character : MapObject
@@ -135,6 +140,23 @@ public class Character : MapObject
     public eMoveDirection GetNextDirection() { return _nextDirection; }
     public void SetNextDirection(eMoveDirection nextDirection) { _nextDirection = nextDirection; }
 
+    public eMoveDirection getMoveDirection(sPosition CurPostion, sPosition toPostion)
+    {
+        eMoveDirection signalDirection = eMoveDirection.NONE;
+
+        if (CurPostion.tileX > toPostion.tileX)
+            signalDirection = eMoveDirection.LEFT;
+        if (toPostion.tileX > CurPostion.tileX)
+            signalDirection = eMoveDirection.RIGHT;
+
+        if (CurPostion.tileY > toPostion.tileY)
+            signalDirection = eMoveDirection.DOWN;
+
+        if (toPostion.tileY > CurPostion.tileY)
+            signalDirection = eMoveDirection.UP;
+
+        return signalDirection;
+    }
 
     //message
     override public void ReceiverObjcectMessage(ObjectMessageParam messageParam)
@@ -144,25 +166,26 @@ public class Character : MapObject
             case "ATTACK":
                 _damagePoint = messageParam.attackpoint;
                 _state.NextState(eStateType.DAMAGE);
-                Debug.Log("Damage: " + _hp);
-                break;
-            case "WAR":
-                
-                Debug.Log("전투가 시작됌");
+
+                sPosition curPosition;
+                curPosition.tileX = _tileX;
+                curPosition.tileY = _tileY;
+
+                sPosition targetPosition;
+                targetPosition.tileX = messageParam.sender.GetTileX();
+                targetPosition.tileY = messageParam.sender.GetTileY();
+
+                eMoveDirection moveDirection = getMoveDirection(curPosition, targetPosition);
+
+                SetNextDirection( moveDirection);
+
+                _chracterView.GetComponent<Animator>().SetTrigger(moveDirection.ToString());
+                //Debug.Log("Damage: " + _hp);
                 break;
         }
 
     }
 
-    public void War(MapObject Ene)
-    {
-        ObjectMessageParam messageParam = new ObjectMessageParam();
-        messageParam.sender = this;
-        messageParam.receiver = Ene;
-        messageParam.message = "WAR";
-
-        messageSystem.Instance.Send(messageParam);
-    }
 
     //attack
     public void Attack(MapObject Ene)
@@ -181,7 +204,7 @@ public class Character : MapObject
     protected int _attackPoint;
     protected int _damagePoint;
 
-    float _attackCoolTime = 0.5f;
+    float _attackCoolTime = 0.1f;
     float _deltaAttackCoolTime = 0.0f;
 
     public void UpdateAttackCoolTime()
@@ -235,6 +258,11 @@ public class Character : MapObject
     protected bool _isLive = true;
 
 
+    public int getHp()
+    {
+        return _hp;
+    }
+
     public bool Islive()
     {
         return _isLive;
@@ -252,21 +280,21 @@ public class Character : MapObject
 
     public bool MoveStart(int tileX, int tileY)
     {
-        string animationTrigger = "Up";
+        string animationTrigger = "UP";
 
         switch (_nextDirection)
         {
             case eMoveDirection.LEFT:
-                animationTrigger = "Left";
+                animationTrigger = "LEFT";
                 break;
             case eMoveDirection.RIGHT:
-                animationTrigger = "Right";
+                animationTrigger = "RIGHT";
                 break;
             case eMoveDirection.UP:
-                animationTrigger = "Up";
+                animationTrigger = "UP";
                 break;
             case eMoveDirection.DOWN:
-                animationTrigger = "Down";
+                animationTrigger = "DOWN";
                 break;
         }
 
@@ -317,8 +345,8 @@ public class Character : MapObject
 
     void UpdateUI()
     {
-        _hpGuage.value = _hp / 100.0f;
-        _attackcoolTimeGuage.value = _deltaAttackCoolTime * 2.0f;
+        _hpGuage.value = _hp / 200.0f;
+        _attackcoolTimeGuage.value = _deltaAttackCoolTime / _attackCoolTime;
     }
 
     public void LinkHPGuage(Slider HpSlider)
