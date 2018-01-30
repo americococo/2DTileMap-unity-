@@ -28,6 +28,7 @@ public class MainGameScene : MonoBehaviour
         GameManger.Instance.SetMap(_tileMap);
 
         Character player = CreateCharacter("Player", "character01");
+        player.SetCanMove(false);
 
         Character monster = CreateCharacter("Monster", "character02");
         monster.SetCanMove(false);

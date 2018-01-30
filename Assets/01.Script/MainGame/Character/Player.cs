@@ -6,13 +6,13 @@ public class Player : Character
 {
     private void Awake()
     {
-        _attackPoint = 10;
-        _ObjectType = eMapObjectType.CHARACTER;
+        
     }
 
     void Start()
     {
-
+        _attackPoint = 10;
+        _ObjectType = eMapObjectType.CHARACTER;
     }
     protected override void InitState()
     {

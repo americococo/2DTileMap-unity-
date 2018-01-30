@@ -42,20 +42,17 @@ public class PathfindingTestMove : State
 
             bool Canmove = tileCell.CanMove();
 
-            if (Canmove)
+            _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
+
+
+            if(false == Canmove)
             {
-                _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
-            }
-            else
-            {
-                _character.MoveStart(tileCell.GetTileX(), tileCell.GetTileY());
                 List<MapObject> collisionList = GameManger.Instance.GetMap().GetCollisionList(tileCell.GetTileX(), tileCell.GetTileY());
                 for (int i = 0; i < collisionList.Count; i++)
                 {
                     if (eMapObjectType.CHARACTER == collisionList[i].GetObjectType())
                     {
                         _nextState = eStateType.WAR;
-
                         break;
                     }
                 }

@@ -17,10 +17,9 @@ public class Damage : State
         {
             _nextState = eStateType.DEATH;
         }
-        else
+        else if( true== _character.Islive())
         {
-            _nextState = eStateType.WAR;
-            
+            _nextState = eStateType.WAR;   
         }
     }
 

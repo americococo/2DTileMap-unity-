@@ -6,7 +6,11 @@ public class NPCIdle : State
 {
     public override void Update()
     {
-        base.Update ();
+        if (_nextState != eStateType.NONE)
+        {
+            _character.ChangeState(_nextState);
+        }
+
     }
 
 }

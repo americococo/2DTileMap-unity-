@@ -157,6 +157,10 @@ public class Character : MapObject
 
         return signalDirection;
     }
+    public void SetMoveDireCtion(eMoveDirection direction)
+    {
+        _chracterView.GetComponent<Animator>().SetTrigger(direction.ToString());
+    }
 
     //message
     override public void ReceiverObjcectMessage(ObjectMessageParam messageParam)
@@ -165,11 +169,10 @@ public class Character : MapObject
         {
             case "ATTACK":
                 _damagePoint = messageParam.attackpoint;
-                _state.NextState(eStateType.DAMAGE);
 
                 sPosition curPosition;
-                curPosition.tileX = _tileX;
-                curPosition.tileY = _tileY;
+                curPosition.tileX = messageParam.receiver.GetTileX();
+                curPosition.tileY = messageParam.receiver.GetTileY();
 
                 sPosition targetPosition;
                 targetPosition.tileX = messageParam.sender.GetTileX();
@@ -181,6 +184,8 @@ public class Character : MapObject
 
                 _chracterView.GetComponent<Animator>().SetTrigger(moveDirection.ToString());
                 //Debug.Log("Damage: " + _hp);
+                _state.NextState(eStateType.DAMAGE);
+                //Debug.Log(messageParam.receiver);
                 break;
         }
 
@@ -204,7 +209,7 @@ public class Character : MapObject
     protected int _attackPoint;
     protected int _damagePoint;
 
-    float _attackCoolTime = 0.1f;
+    float _attackCoolTime = 1.0f;
     float _deltaAttackCoolTime = 0.0f;
 
     public void UpdateAttackCoolTime()
