@@ -197,12 +197,14 @@ public class Character : MapObject
     {
         ResetCoolTime();
 
+        SoundPlayer.Instance.PlayEffect("player_hit");
+
         ObjectMessageParam messageParam = new ObjectMessageParam();
         messageParam.sender = this;
         messageParam.receiver = Ene;
         messageParam.attackpoint = _attackPoint;
         messageParam.message = "ATTACK";
-
+        
         messageSystem.Instance.Send(messageParam);
     }
     //attack
@@ -241,6 +243,12 @@ public class Character : MapObject
 
     public void DecreaseHp(int damage)
     {
+        string filePath = "Prefabs/Effect/DamageEffect";
+        GameObject effcetPrefabs = Resources.Load<GameObject>(filePath);
+        GameObject effctObject = GameObject.Instantiate(effcetPrefabs, transform.position, Quaternion.identity);
+        
+        GameObject.Destroy(effctObject,1.2f);
+
         _chracterView.GetComponent<SpriteRenderer>().color = Color.red;
 
         Invoke("ResetColor", 0.1f);//0.1초 후 ResetColor 함수 호출
@@ -252,6 +260,7 @@ public class Character : MapObject
             _isLive = false;
         }
     }
+
 
     void ResetColor()
     {
@@ -374,6 +383,18 @@ public class Character : MapObject
 
     }
 
+    public void setMoveCursor(Vector2 position)
+    {
+        TileCell cell= GameManger.Instance.GetMap().GetTileCell((int)position.x,(int) position.y);
+        
+        List<MapObject>  mapobjectList = cell.GetCollsionList();
+
+        string filePath = "Prefabs/Effect/MoveCursor";
+        GameObject effcetPrefabs = Resources.Load<GameObject>(filePath);
+        GameObject effctObject = GameObject.Instantiate(effcetPrefabs,mapobjectList[0].transform.position , Quaternion.identity);
+        effctObject.transform.localPosition = position;
+        GameObject.Destroy(effctObject, 5.0f);
+    }
 
 }
 

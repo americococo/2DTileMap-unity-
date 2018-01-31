@@ -10,6 +10,8 @@ public class Attack : State
         base.Start();
         Debug.Log("ATK");
 
+        
+
         _character.UpdateAttackCoolTime();
         int moveX = _character.GetTileX();
         int moveY = _character.GetTileY();
@@ -38,6 +40,7 @@ public class Attack : State
             {
                 case eMapObjectType.CHARACTER:
                     _character.Attack(collisionList[i]);
+                    
                     break;
             }
         }

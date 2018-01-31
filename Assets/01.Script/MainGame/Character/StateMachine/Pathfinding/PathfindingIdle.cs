@@ -27,11 +27,14 @@ public class PathfindingIdle : State
 
                     TileCell GoalCell = map.GetTileCell(mapObject.GetTileX(), mapObject.GetTileY());
                     //Debug.Log("찾음" + GoalCell.ToString());
+
+                    _character.setMoveCursor(hit.collider.gameObject.transform.position);
+
                     List<MapObject> mapCollision = map.GetCollisionList(GoalCell.GetTileX(), GoalCell.GetTileY());
                     if (0 != mapCollision.Count)
                     {
                         if (eMapObjectType.CHARACTER == mapCollision[0].GetObjectType())
-                        {
+                        { 
                             _character.SetGoalTileCell(GoalCell);
                         }
                     }

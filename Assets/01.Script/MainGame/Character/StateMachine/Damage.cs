@@ -11,7 +11,9 @@ public class Damage : State
 
         int damage = _character.GetDamagePoint();
 
+
         _character.DecreaseHp(damage);
+
 
         if (false == _character.Islive())
         {

@@ -52,7 +52,7 @@ public class WAR : State
                 moveY++;
                 break;
         }
-        Debug.Log(_character.ToString() + "x: " +moveX.ToString() +  "Y:" + moveY.ToString()) ;
+        //Debug.Log(_character.ToString() + "x: " +moveX.ToString() +  "Y:" + moveY.ToString()) ;
 
 
         List<MapObject> collisionList = GameManger.Instance.GetMap().GetCollisionList(moveX, moveY);
