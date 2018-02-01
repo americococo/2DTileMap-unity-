@@ -191,6 +191,8 @@ public class Character : MapObject
     {
         ResetCoolTime();
 
+        SoundPlayer.Instance.PlayEffect("player_hit");
+
         ObjectMessageParam messageParam = new ObjectMessageParam();
         messageParam.sender = this;
         messageParam.receiver = Ene;
@@ -235,6 +237,12 @@ public class Character : MapObject
 
     public void DecreaseHp(int damage)
     {
+        string filePath = "Prefabs/Effect/DamageEffect";
+        GameObject effcetPrefabs = Resources.Load<GameObject>(filePath);
+        GameObject effctObject = GameObject.Instantiate(effcetPrefabs, transform.position, Quaternion.identity);
+
+        GameObject.Destroy(effctObject, 1.2f);
+
         _chracterView.GetComponent<SpriteRenderer>().color = Color.red;
 
         Invoke("ResetColor", 0.1f);//0.1초 후 ResetColor 함수 호출
