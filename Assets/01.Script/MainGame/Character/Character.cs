@@ -385,15 +385,11 @@ public class Character : MapObject
 
     public void setMoveCursor(Vector2 position)
     {
-        TileCell cell= GameManger.Instance.GetMap().GetTileCell((int)position.x,(int) position.y);
-        
-        List<MapObject>  mapobjectList = cell.GetCollsionList();
-
         string filePath = "Prefabs/Effect/MoveCursor";
         GameObject effcetPrefabs = Resources.Load<GameObject>(filePath);
-        GameObject effctObject = GameObject.Instantiate(effcetPrefabs,mapobjectList[0].transform.position , Quaternion.identity);
+        GameObject effctObject = GameObject.Instantiate(effcetPrefabs,position, Quaternion.identity);
         effctObject.transform.localPosition = position;
-        GameObject.Destroy(effctObject, 5.0f);
+        GameObject.Destroy(effctObject, 2.0f);
     }
 
 }

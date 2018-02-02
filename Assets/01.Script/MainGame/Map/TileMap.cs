@@ -132,6 +132,7 @@ public class TileMap : MonoBehaviour
             }
 
         }
+        eMoveDirection direction = (eMoveDirection)Random.Range(0, (int)eMoveDirection.NONE - 1);
         //기둥 세운후 가지치기
         for (int y = 0; y < _height; y++)
         {
@@ -143,7 +144,11 @@ public class TileMap : MonoBehaviour
                     if(false == IsConnectedCell(x,y))
                     {
                         //램덤한 방향으로 블럭이 연결됄때까지 이어준다
-                        eMoveDirection direction = (eMoveDirection)Random.Range(0, (int)eMoveDirection.NONE - 1);
+
+                        direction++;
+                        if (direction == eMoveDirection.NONE)
+                            direction = eMoveDirection.LEFT;
+
                         int serchTileX = x;
                         int serchTileY = y;
                         while(false == IsConnectedCell(serchTileX,serchTileY))
@@ -364,7 +369,5 @@ public class TileMap : MonoBehaviour
         for (int y = 0; y < _height; y++)
             for (int x = 0; x < _width; x++)
                 _tileCellList[y, x].ResetPathfinding();
-
-
     }
 }

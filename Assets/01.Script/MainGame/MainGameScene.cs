@@ -32,7 +32,8 @@ public class MainGameScene : MonoBehaviour
 
         Character monster = CreateCharacter("Monster", "character02");
         monster.SetCanMove(false);
-        
+
+        GameManger.Instance.TargetCharacter = monster;
         player.BecomeViewr();
 
     }

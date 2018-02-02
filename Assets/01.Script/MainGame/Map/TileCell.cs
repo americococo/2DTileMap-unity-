@@ -18,9 +18,7 @@ public class TileCell
     Vector2 _postion;
 
     List<List<MapObject>> _MapObjectMap = new List<List<MapObject>>();
-
-
-
+    
     public void Init()
     {
         for (int i = 0; i < (int)eTileLayer.MAXCOUNT; i++)
@@ -161,5 +159,10 @@ public class TileCell
     public void SetPrevPathfindingCell(TileCell prevTileCell)
     {
         _prevTileCell = prevTileCell;
+    }
+
+    public List<MapObject> GetmapObjectList()
+    {
+        return _MapObjectMap[0];
     }
 }

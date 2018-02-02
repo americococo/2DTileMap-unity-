@@ -40,7 +40,7 @@ public class MapObject : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sortingLayerID = sortingID;
         gameObject.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
     }
-
+    
     protected eTileLayer _currentlayer;
 
     public eTileLayer GetLayer()
