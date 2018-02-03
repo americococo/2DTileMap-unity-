@@ -180,7 +180,7 @@ public class Character : MapObject
 
                 eMoveDirection moveDirection = getMoveDirection(curPosition, targetPosition);
 
-                SetNextDirection( moveDirection);
+                SetNextDirection(moveDirection);
 
                 _chracterView.GetComponent<Animator>().SetTrigger(moveDirection.ToString());
                 //Debug.Log("Damage: " + _hp);
@@ -193,20 +193,54 @@ public class Character : MapObject
 
 
     //attack
-    public void Attack(MapObject Ene)
+    public MapObject Attack()
     {
         ResetCoolTime();
 
         SoundPlayer.Instance.PlayEffect("player_hit");
-
         ObjectMessageParam messageParam = new ObjectMessageParam();
+
+        int moveX = _tileX;
+        int moveY = _tileY;
+
+        switch (GetNextDirection())
+        {
+            case eMoveDirection.LEFT:
+                moveX--;
+                break;
+            case eMoveDirection.RIGHT:
+                moveX++;
+                break;
+            case eMoveDirection.UP:
+                moveY++;
+                break;
+            case eMoveDirection.DOWN:
+                moveY--;
+                break;
+        }
+
+        TileMap map = GameManger.Instance.GetMap();
+        List<MapObject> collisionList = map.GetCollisionList(moveX, moveY);
+        for (int i = 0; i < collisionList.Count; i++)
+        {
+            switch (collisionList[i].GetObjectType())
+            {
+                case eMapObjectType.CHARACTER:
+                    messageParam.receiver = collisionList[i];
+                    break;
+                
+            }
+        }
+
         messageParam.sender = this;
-        messageParam.receiver = Ene;
         messageParam.attackpoint = _attackPoint;
         messageParam.message = "ATTACK";
-        
+
         messageSystem.Instance.Send(messageParam);
+
+        return messageParam.receiver;
     }
+
     //attack
     protected int _attackPoint;
     protected int _damagePoint;
@@ -246,8 +280,8 @@ public class Character : MapObject
         string filePath = "Prefabs/Effect/DamageEffect";
         GameObject effcetPrefabs = Resources.Load<GameObject>(filePath);
         GameObject effctObject = GameObject.Instantiate(effcetPrefabs, transform.position, Quaternion.identity);
-        
-        GameObject.Destroy(effctObject,1.2f);
+
+        GameObject.Destroy(effctObject, 1.2f);
 
         _chracterView.GetComponent<SpriteRenderer>().color = Color.red;
 
@@ -387,7 +421,7 @@ public class Character : MapObject
     {
         string filePath = "Prefabs/Effect/MoveCursor";
         GameObject effcetPrefabs = Resources.Load<GameObject>(filePath);
-        GameObject effctObject = GameObject.Instantiate(effcetPrefabs,position, Quaternion.identity);
+        GameObject effctObject = GameObject.Instantiate(effcetPrefabs, position, Quaternion.identity);
         effctObject.transform.localPosition = position;
         GameObject.Destroy(effctObject, 2.0f);
     }

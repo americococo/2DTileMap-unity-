@@ -1,0 +1,812 @@
+fileFormatVersion: 2
+guid: 433808338fbce7d42ae23c58b50c7b1d
+timeCreated: 1517642122
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Linksprite_0
+    21300002: Linksprite_1
+    21300004: Linksprite_2
+    21300006: Linksprite_3
+    21300008: Linksprite_4
+    21300010: Linksprite_5
+    21300012: Linksprite_6
+    21300014: Linksprite_7
+    21300016: Linksprite_8
+    21300018: Linksprite_9
+    21300020: Linksprite_10
+    21300022: Linksprite_11
+    21300024: Linksprite_12
+    21300026: Linksprite_13
+    21300028: Linksprite_14
+    21300030: Linksprite_15
+    21300032: Linksprite_16
+    21300034: Linksprite_17
+    21300036: Linksprite_18
+    21300038: Linksprite_19
+    21300040: Linksprite_20
+    21300042: Linksprite_21
+    21300044: Linksprite_22
+    21300046: Linksprite_23
+    21300048: Linksprite_24
+    21300050: Linksprite_25
+    21300052: Linksprite_26
+    21300054: Linksprite_27
+    21300056: Linksprite_28
+    21300058: Linksprite_29
+    21300060: Linksprite_30
+    21300062: Linksprite_31
+    21300064: Linksprite_32
+    21300066: Linksprite_33
+    21300068: Linksprite_34
+    21300070: Linksprite_35
+    21300072: Linksprite_36
+    21300074: Linksprite_37
+    21300076: Linksprite_38
+    21300078: Linksprite_39
+    21300080: Linksprite_40
+    21300082: Linksprite_41
+    21300084: Linksprite_42
+    21300086: Linksprite_43
+    21300088: Linksprite_44
+    21300090: Linksprite_45
+    21300092: Linksprite_46
+    21300094: Linksprite_47
+    21300096: Linksprite_48
+    21300098: Linksprite_49
+    21300100: Linksprite_50
+    21300102: Linksprite_51
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Linksprite_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 625.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_1
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 625.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_2
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 625.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_3
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 536.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_4
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 536.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_5
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 536.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_6
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 447.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_7
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 447.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_8
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 447.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_9
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 358.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_10
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 358.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_11
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 358.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_12
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_13
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_14
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_15
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_16
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_17
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_18
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_19
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_20
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_21
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 269.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_22
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_23
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_24
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_25
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_26
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_27
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_28
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_29
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_30
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_31
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 180.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_32
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_33
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_34
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_35
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_36
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_37
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_38
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_39
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_40
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_41
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 91.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_42
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_43
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_44
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_45
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_46
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_47
+      rect:
+        serializedVersion: 2
+        x: 413
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_48
+      rect:
+        serializedVersion: 2
+        x: 495
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_49
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_50
+      rect:
+        serializedVersion: 2
+        x: 659
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Linksprite_51
+      rect:
+        serializedVersion: 2
+        x: 741
+        y: 2.75
+        width: 81.1
+        height: 88.25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

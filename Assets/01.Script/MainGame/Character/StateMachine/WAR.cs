@@ -17,7 +17,7 @@ public class WAR : State
             {
                 if (((Character)Enemy).Islive())
                 {
-                    _character.Attack(Enemy);
+                    _character.Attack();
                     return;
                 }
                 else
@@ -33,43 +33,8 @@ public class WAR : State
     {
         base.Start();
 
-        int moveX = _character.GetTileX();
-        int moveY = _character.GetTileY();
-
-
-        switch (_character.GetNextDirection())
-        {
-            case eMoveDirection.LEFT:
-                moveX--;
-                break;
-            case eMoveDirection.RIGHT:
-                moveX++;
-                break;
-            case eMoveDirection.DOWN:
-                moveY--;
-                break;
-            case eMoveDirection.UP:
-                moveY++;
-                break;
-        }
-        //Debug.Log(_character.ToString() + "x: " +moveX.ToString() +  "Y:" + moveY.ToString()) ;
-
-
-        List<MapObject> collisionList = GameManger.Instance.GetMap().GetCollisionList(moveX, moveY);
-
-        Debug.Log(collisionList.Count.ToString());
-
-        for (int i = 0; i < collisionList.Count; i++)
-        {
-            Debug.Log(collisionList[i].ToString());
-            
-            switch (collisionList[i].GetObjectType())
-            {
-                case eMapObjectType.CHARACTER:
-                    Enemy = collisionList[i];
-                    break;
-            }
-        }
+        if (_character.IsAttackAble())
+            Enemy= _character.Attack();
 
     }
 }

@@ -36,24 +36,4 @@ public class MainGameUI : MonoBehaviour {
         Slider slider = gameObject.GetComponent<Slider>();
         return slider;
     }
-
-
-
-
-    //OnClick Action
-    
-    public void OnAttack()
-    {
-        Character target = GameManger.Instance.TargetCharacter;
-
-        ObjectMessageParam messageParam = new ObjectMessageParam();
-        messageParam.sender = null;
-        messageParam.receiver = target;
-        messageParam.attackpoint = 100;
-        messageParam.message = "ATTACK";
-
-        messageSystem.Instance.Send(messageParam);
-
-
-    }
 }

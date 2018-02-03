@@ -29,6 +29,12 @@ public class Idle : State
             moveDirection = eMoveDirection.DOWN;
         }
 
+        else if(Input.GetKeyDown(KeyCode.A))
+        {
+            if (_character.IsAttackAble())
+                _character.Attack();
+        }
+
         if (eMoveDirection.NONE != moveDirection)
         {
             _character.SetNextDirection(moveDirection);
