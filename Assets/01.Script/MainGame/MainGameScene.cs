@@ -33,6 +33,9 @@ public class MainGameScene : MonoBehaviour
         Character monster = CreateCharacter("Monster", "character02");
         monster.SetCanMove(false);
 
+        Item item = CreateItem("Item","Heal");
+        
+
         GameManger.Instance.TargetCharacter = monster;
         player.BecomeViewr();
 
@@ -69,5 +72,19 @@ public class MainGameScene : MonoBehaviour
         return character;
     }
 
+    Item CreateItem(string fileName,string resourceName)
+    {
+        string filePath = "Prefabs/ItemFrame/Item";
+        GameObject charPrefabs = Resources.Load<GameObject>(filePath);
+        GameObject charGameObject = GameObject.Instantiate(charPrefabs);
+        charGameObject.transform.SetParent(_tileMap.transform);
+        charGameObject.transform.localPosition = Vector3.zero;
+
+        Item item = charGameObject.GetComponent<Item>();
+
+        item.Init(resourceName);
+
+        return item;
+    }
 
 }

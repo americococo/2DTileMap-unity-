@@ -29,7 +29,7 @@ public class Character : MapObject
     // Use this for initialization
     void Start()
     {
-
+        _hp = _fullHp;
     }
 
     // Update is called once per frame
@@ -186,11 +186,27 @@ public class Character : MapObject
                 //Debug.Log("Damage: " + _hp);
                 _state.NextState(eStateType.DAMAGE);
                 //Debug.Log(messageParam.receiver);
+
+                //공격한적에게 자신의 체력에 비례한 경험치 부여
+                int Exp;
+                Exp = ((Character)messageParam.sender).getFullHp() / ((Character)messageParam.sender).getHp();
+
+                ((Character)messageParam.sender).getExp(Exp);
+
                 break;
         }
 
     }
 
+    public void getExp(int Exp)
+    {
+        _Exp += Exp;
+        if(_Exp>=100)
+        {
+            LevelUp();
+        }
+
+    }
 
     //attack
     public MapObject Attack()
@@ -239,6 +255,15 @@ public class Character : MapObject
         messageSystem.Instance.Send(messageParam);
 
         return messageParam.receiver;
+    }
+
+    public int getHp()
+    {
+        return _hp;
+    }
+    public int getFullHp()
+    {
+        return  _fullHp;
     }
 
     //attack
@@ -296,20 +321,25 @@ public class Character : MapObject
     }
 
 
+
+    //Lv
+    
+
+    
+
+
+
     void ResetColor()
     {
         _chracterView.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
     //life
-    protected int _hp = 200; // hp<0 -> Live(false)
+    protected int _fullHp = 200;
+    protected int _hp = 0; // hp<0 -> Live(false)
     protected bool _isLive = true;
 
 
-    public int getHp()
-    {
-        return _hp;
-    }
 
     public bool Islive()
     {
@@ -387,6 +417,8 @@ public class Character : MapObject
         return serchRoot.Pop();
     }
 
+
+
     //UI
     Slider _hpGuage;
     Slider _attackcoolTimeGuage;
@@ -425,6 +457,9 @@ public class Character : MapObject
         effctObject.transform.localPosition = position;
         GameObject.Destroy(effctObject, 2.0f);
     }
+    
+
+
 
 }
 

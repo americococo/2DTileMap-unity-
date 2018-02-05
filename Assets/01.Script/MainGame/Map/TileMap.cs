@@ -132,7 +132,7 @@ public class TileMap : MonoBehaviour
             }
 
         }
-        eMoveDirection direction = (eMoveDirection)Random.Range(0, (int)eMoveDirection.NONE - 1);
+       
         //기둥 세운후 가지치기
         for (int y = 0; y < _height; y++)
         {
@@ -145,7 +145,7 @@ public class TileMap : MonoBehaviour
                     {
                         //램덤한 방향으로 블럭이 연결됄때까지 이어준다
 
-                        direction++;
+                        eMoveDirection direction = (eMoveDirection)Random.Range(0, (int)eMoveDirection.NONE-1);
                         if (direction == eMoveDirection.NONE)
                             direction = eMoveDirection.LEFT;
 
