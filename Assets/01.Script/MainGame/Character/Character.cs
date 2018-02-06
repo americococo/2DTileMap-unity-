@@ -69,8 +69,14 @@ public class Character : MapObject
 
         TileMap map = GameManger.Instance.GetMap();
 
-        _tileX = Random.Range(1, map.GetWidth() - 2);
-        _tileY = Random.Range(1, map.GetHeight() - 2);
+
+        do
+        {
+            _tileX = Random.Range(1, map.GetWidth() - 2);
+            _tileY = Random.Range(1, map.GetHeight() - 2);
+        } while (!map.GetTileCell(_tileX, _tileY).CanMove());
+
+
 
         //TileCell tileCell = map.GetTileCell(x, y);
         //tileCell.AddObject(eTileLayer.MIIDDLE, this);
@@ -188,22 +194,30 @@ public class Character : MapObject
                 //Debug.Log(messageParam.receiver);
 
                 //공격한적에게 자신의 체력에 비례한 경험치 부여
-                int Exp;
-                Exp = ((Character)messageParam.sender).getFullHp() / ((Character)messageParam.sender).getHp();
-
-                ((Character)messageParam.sender).getExp(Exp);
 
                 break;
         }
 
     }
 
-    public void getExp(int Exp)
+    int _Exp=0;
+    int _level=1;
+
+    
+
+    int getLevel()
     {
-        _Exp += Exp;
-        if(_Exp>=100)
+        return _level;
+    }
+
+    void LevelUp()
+    {
+        if (_Exp >= 100)
         {
-            LevelUp();
+            _level++;
+            _Exp = 0;
+
+            _attackPoint = _level * _attackPoint;
         }
 
     }
@@ -253,6 +267,10 @@ public class Character : MapObject
         messageParam.message = "ATTACK";
 
         messageSystem.Instance.Send(messageParam);
+        Debug.Log(this._level.ToString());
+
+        _Exp += 30;
+        LevelUp();
 
         return messageParam.receiver;
     }
@@ -320,15 +338,6 @@ public class Character : MapObject
         }
     }
 
-
-
-    //Lv
-    
-
-    
-
-
-
     void ResetColor()
     {
         _chracterView.GetComponent<SpriteRenderer>().color = Color.white;
@@ -338,8 +347,6 @@ public class Character : MapObject
     protected int _fullHp = 200;
     protected int _hp = 0; // hp<0 -> Live(false)
     protected bool _isLive = true;
-
-
 
     public bool Islive()
     {
@@ -387,6 +394,13 @@ public class Character : MapObject
             _tileY = tileY;
             map.SetObject(_tileX, _tileY, this, eTileLayer.MIIDDLE);
 
+
+            if(map.GetTileCell(_tileX, tileY).GetNextStagePosition())
+            {
+                Debug.Log("");
+            }
+
+
             return true;
         }
         return false;
@@ -422,11 +436,13 @@ public class Character : MapObject
     //UI
     Slider _hpGuage;
     Slider _attackcoolTimeGuage;
+    Slider _ExpGuage;
 
     void UpdateUI()
     {
         _hpGuage.value = _hp / 200.0f;
         _attackcoolTimeGuage.value = _deltaAttackCoolTime / _attackCoolTime;
+        _ExpGuage.value = (float)_Exp / 100.0f;
     }
 
     public void LinkHPGuage(Slider HpSlider)
@@ -440,13 +456,19 @@ public class Character : MapObject
         LinkGuage(AttackCoolTimeSlider, new Vector3(0, -0.3f, 0));
         _attackcoolTimeGuage = AttackCoolTimeSlider;
     }
+
+    public void LinkExpGuage(Slider ExpGuage)
+    {
+        LinkGuage(ExpGuage, new Vector3(0, 2.0f, 0));
+        _ExpGuage = ExpGuage;
+    }
+
     public void LinkGuage(Slider slider, Vector3 postion)
     {
         GameObject canvasObject = transform.Find("Canvas").gameObject;
         slider.transform.SetParent(canvasObject.transform);
         slider.transform.localPosition = postion;
         slider.transform.localScale = Vector3.one;
-
     }
 
     public void setMoveCursor(Vector2 position)
@@ -458,8 +480,5 @@ public class Character : MapObject
         GameObject.Destroy(effctObject, 2.0f);
     }
     
-
-
-
 }
 

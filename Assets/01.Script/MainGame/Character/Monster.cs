@@ -12,6 +12,7 @@ public class Monster : Character
     void Start()
     {
         _attackPoint = 10;
+        _hp = _fullHp;
         _ObjectType = eMapObjectType.CHARACTER;
     }
 

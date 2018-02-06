@@ -100,6 +100,20 @@ public class TileCell
         return CollsionList;
     }
 
+    bool nextStagePosition=false;
+
+    public void SetNextStagePosition()
+    {
+        nextStagePosition = true;
+
+        _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+
+    }
+    public bool GetNextStagePosition()
+    {
+        return nextStagePosition;
+    }
+
     //pathfind
 
     bool _ismarking;
@@ -107,7 +121,7 @@ public class TileCell
     public void ResetPathfinding()
     {
         _ismarking = false;
-        _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        //_MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         _prevTileCell = null;
     }
 
@@ -143,7 +157,7 @@ public class TileCell
         _MapObjectMap[(int)eTileLayer.GROUND][0].gameObject.GetComponent<SpriteRenderer>().color = Color.white;
     }
 
-    float _heuristic;
+    float _heuristic=0.0f;
 
     public float Getheuristic()
     {

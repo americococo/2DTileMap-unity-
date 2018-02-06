@@ -8,7 +8,8 @@ public class TileMap : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        _sprityArray = null;
+        
     }
 
     Sprite[] _sprityArray;
@@ -17,6 +18,7 @@ public class TileMap : MonoBehaviour
         _sprityArray = Resources.LoadAll<Sprite>("Sprites/MapSprite");
         //CreateTiles();
         CreateRandomMaze();
+        RandomNextStagePosition();
     }
 
     void Update()
@@ -80,33 +82,6 @@ public class TileMap : MonoBehaviour
             }
         }
 
-
-        //2층
-        //scriptAsset = Resources.Load<TextAsset>("Data/Map1MapData_layer2");
-        //records = scriptAsset.text.Split('\n');    //레코드 받아옴
-        //for (int y = 0; y < _height; y++)
-        //{
-        //    int line = y + 2;
-        //    string[] Token = records[line].Split(',');
-        //    for (int x = 0; x < _width; x++)
-        //    {
-        //        int spriteIndex = int.Parse(Token[x]);
-        //        if (0 < spriteIndex)
-        //        {
-        //            GameObject tileGameObject = GameObject.Instantiate(TileObjectPrefabs);
-        //            tileGameObject.transform.SetParent(transform);
-        //            tileGameObject.transform.localScale = Vector3.one;
-        //            tileGameObject.transform.localPosition = Vector3.zero;
-
-        //            TileObject tileObject = tileGameObject.GetComponent<TileObject>();
-        //            tileObject.Init(_sprityArray[spriteIndex]);
-        //            tileObject.SetCanMove(false);
-        //            GetTileCell(x, y).AddObject(eTileLayer.GROUND, tileObject);
-        //        }
-
-        //    }
-        //}
-
         for (int y = 0; y < _height; y++)
         {
             if (0 == (y % 2))
@@ -132,26 +107,26 @@ public class TileMap : MonoBehaviour
             }
 
         }
-       
+
         //기둥 세운후 가지치기
         for (int y = 0; y < _height; y++)
         {
             for (int x = 0; x < _width; x++)
             {
-                if(false==GetTileCell(x,y).CanMove())
+                if (false == GetTileCell(x, y).CanMove())
                 {
                     //연결돼지 않은 블록인 경우
-                    if(false == IsConnectedCell(x,y))
+                    if (false == IsConnectedCell(x, y))
                     {
                         //램덤한 방향으로 블럭이 연결됄때까지 이어준다
 
-                        eMoveDirection direction = (eMoveDirection)Random.Range(0, (int)eMoveDirection.NONE-1);
+                        eMoveDirection direction = (eMoveDirection)Random.Range(0, (int)eMoveDirection.NONE - 1);
                         if (direction == eMoveDirection.NONE)
                             direction = eMoveDirection.LEFT;
 
                         int serchTileX = x;
                         int serchTileY = y;
-                        while(false == IsConnectedCell(serchTileX,serchTileY))
+                        while (false == IsConnectedCell(serchTileX, serchTileY))
                         {
                             switch (direction)
                             {
@@ -168,7 +143,7 @@ public class TileMap : MonoBehaviour
                                     serchTileY--;
                                     break;
                             }
-                            if(0<=serchTileX && serchTileX<_width && 0<= serchTileY && serchTileY < _height)
+                            if (0 <= serchTileX && serchTileX < _width && 0 <= serchTileY && serchTileY < _height)
                             {
                                 //새로운 블록을 심어줌
                                 int spriteIndex = 63;
@@ -181,7 +156,7 @@ public class TileMap : MonoBehaviour
                                 TileObject tileObject = tileGameObject.GetComponent<TileObject>();
                                 tileObject.Init(_sprityArray[spriteIndex]);
                                 tileObject.SetCanMove(false);
-                                tileObject.setTilePostion(serchTileX,serchTileY);
+                                tileObject.setTilePostion(serchTileX, serchTileY);
                                 GetTileCell(serchTileX, serchTileY).AddObject(eTileLayer.GROUND, tileObject);
                             }
                         }
@@ -193,6 +168,16 @@ public class TileMap : MonoBehaviour
 
 
     }
+
+    void RandomNextStagePosition()
+    {
+        int x=Random.Range(0,_width-1);
+        int y= Random.Range(0, _height- 1);
+
+        GetTileCell(x, y).SetNextStagePosition();
+
+    }
+
 
     bool IsConnectedCell(int tileX,int tileY)
     {
@@ -266,11 +251,6 @@ public class TileMap : MonoBehaviour
                 TileObject tileObject = tileGameObject.GetComponent<TileObject>();
                 tileObject.Init(_sprityArray[spriteIndex]);
                 tileObject.setTilePostion(x, y);
-                //TileCell tileCell = new TileCell();
-                //tileCell.Init();
-                //tileCell.SetPosition(x * tileSize / 100.0f, y * tileSize / 100.0f);
-                //tileCell.AddObject(eTileLayer.GROUND, tileObject);
-                //_tileCellList.Add(tileCell);
 
                 _tileCellList[y, x] = new TileCell();
                 GetTileCell(x, y).Init();

@@ -12,6 +12,7 @@ public class Player : Character
     void Start()
     {
         _attackPoint = 10;
+        _hp = _fullHp;
         _ObjectType = eMapObjectType.CHARACTER;
     }
     protected override void InitState()

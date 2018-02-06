@@ -19,6 +19,7 @@ public class MainGameUI : MonoBehaviour {
     //play UI
     public GameObject HPGuagePrefabs;
     public GameObject AttackCoolGuagePrefabs;
+    public GameObject LevelGuagePrefabs;
 
     public Slider CreateHPSlider()
     {
@@ -30,10 +31,17 @@ public class MainGameUI : MonoBehaviour {
         return CreateSlider(AttackCoolGuagePrefabs);
     }
 
+    public Slider CreateLevelSlider()
+    {
+        return CreateSlider(LevelGuagePrefabs);
+    }
+
     Slider CreateSlider(GameObject prefabs)
     {
         GameObject gameObject = GameObject.Instantiate(prefabs);
         Slider slider = gameObject.GetComponent<Slider>();
         return slider;
     }
+
+
 }
