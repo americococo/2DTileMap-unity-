@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class TileMap : MonoBehaviour
 {
 
@@ -288,6 +288,17 @@ public class TileMap : MonoBehaviour
         }
 
     }
+    //스테이지 이동
+    public void NextScene(string SceneName)
+    {
+
+        SceneManager.LoadScene(SceneName);
+    }
+
+    //스테이지 이동시 데이터 이동
+
+
+
 
 
     public int GetWidth()
@@ -350,4 +361,5 @@ public class TileMap : MonoBehaviour
             for (int x = 0; x < _width; x++)
                 _tileCellList[y, x].ResetPathfinding();
     }
+
 }

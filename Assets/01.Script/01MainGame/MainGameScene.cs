@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class MainGameScene : MonoBehaviour
 {
 
@@ -17,6 +18,8 @@ public class MainGameScene : MonoBehaviour
         Init();
     }
 
+    
+
     void Update()
     {
         messageSystem.Instance.ProcessMessage();
@@ -29,14 +32,13 @@ public class MainGameScene : MonoBehaviour
 
         Character player = CreateCharacter("Player", "character01");
         player.SetCanMove(false);
+        player.BecomeViewr();
 
         Character monster = CreateCharacter("Monster", "character02");
         monster.SetCanMove(false);
 
-        
-
         GameManger.Instance.TargetCharacter = monster;
-        player.BecomeViewr();
+
 
     }
 
@@ -53,6 +55,9 @@ public class MainGameScene : MonoBehaviour
         {
             case "Player":
                 character = charGameObject.AddComponent<Player>();
+                ScenenDataManager.Instance.SetPlayerData(character);
+                
+
                 break;
             case "Monster":
                 //character = charGameObject.GetComponent<Monster>(); //프리펩과 뷰의 1대1 대응
@@ -72,6 +77,7 @@ public class MainGameScene : MonoBehaviour
         Slider ExpGuage = GameUI.CreateLevelSlider();
         character.LinkExpGuage(ExpGuage);
 
+        Debug.Log(character.getExp().ToString() + character.ToString());
         return character;
     }
 

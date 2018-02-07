@@ -30,7 +30,12 @@ public class Character : MapObject
     void Start()
     {
         _hp = _fullHp;
+        _Exp = 0;
+        _level = 1;
     }
+
+    
+
 
     // Update is called once per frame
     void Update()
@@ -200,12 +205,15 @@ public class Character : MapObject
 
     }
 
-    int _Exp=0;
-    int _level=1;
+    protected int _Exp=0;
+    protected int _level=1;
 
-    
+    public int getExp()
+    {
+        return _Exp;
+    }
 
-    int getLevel()
+    public int getLevel()
     {
         return _level;
     }
@@ -267,7 +275,7 @@ public class Character : MapObject
         messageParam.message = "ATTACK";
 
         messageSystem.Instance.Send(messageParam);
-        Debug.Log(this._level.ToString());
+        Debug.Log(this._level.ToString()+ this.ToString());
 
         _Exp += 30;
         LevelUp();
@@ -397,7 +405,7 @@ public class Character : MapObject
 
             if(map.GetTileCell(_tileX, tileY).GetNextStagePosition())
             {
-                Debug.Log("");
+                map.NextScene("NextScene");
             }
 
 
