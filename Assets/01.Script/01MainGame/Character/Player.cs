@@ -12,17 +12,15 @@ public class Player : Character
     }
 
     void Start()
-    {
-        Character playerData= ScenenDataManager.Instance.getPlayer();
-
-
-        _level = playerData.getLevel();
-        _Exp = playerData.getExp();
-        _attackPoint = 10;
-     
-        
+    { 
         _ObjectType = eMapObjectType.CHARACTER;
 
+        if (null != ScenenDataManager.Instance.getCharacterData())
+        {
+            _level = ScenenDataManager.Instance.getCharacterData().getLevel();
+            _Exp = ScenenDataManager.Instance.getCharacterData().getExp();
+            _hp = ScenenDataManager.Instance.getCharacterData().getHp();
+        }
         
     }
     protected override void InitState()

@@ -10,7 +10,6 @@ public class MainGameScene : MonoBehaviour
     public MainGameUI GameUI;
 
     public TileMap _tileMap;
-    //public Player _TestPlayer;
 
 
     void Start()
@@ -18,12 +17,11 @@ public class MainGameScene : MonoBehaviour
         Init();
     }
 
-    
-
     void Update()
     {
         messageSystem.Instance.ProcessMessage();
     }
+
     void Init()
     {
 
@@ -37,14 +35,17 @@ public class MainGameScene : MonoBehaviour
         Character monster = CreateCharacter("Monster", "character02");
         monster.SetCanMove(false);
 
-        GameManger.Instance.TargetCharacter = monster;
+        Item item= CreateItem("Heal", "Heal");
+        item.SetCanMove(true);
 
+
+        player.setDeathItem(item);
 
     }
 
-    Character CreateCharacter(string fileName,string resourceName)
+    Character CreateCharacter(string fileName, string resourceName)
     {
-        string filePath = "Prefabs/CharacterFrame/Character" ;
+        string filePath = "Prefabs/CharacterFile/CharacterFrame/Character";
         GameObject charPrefabs = Resources.Load<GameObject>(filePath);
         GameObject charGameObject = GameObject.Instantiate(charPrefabs);
         charGameObject.transform.SetParent(_tileMap.transform);
@@ -55,9 +56,6 @@ public class MainGameScene : MonoBehaviour
         {
             case "Player":
                 character = charGameObject.AddComponent<Player>();
-                ScenenDataManager.Instance.SetPlayerData(character);
-                
-
                 break;
             case "Monster":
                 //character = charGameObject.GetComponent<Monster>(); //프리펩과 뷰의 1대1 대응
@@ -77,8 +75,31 @@ public class MainGameScene : MonoBehaviour
         Slider ExpGuage = GameUI.CreateLevelSlider();
         character.LinkExpGuage(ExpGuage);
 
-        Debug.Log(character.getExp().ToString() + character.ToString());
+        
         return character;
     }
+    Item CreateItem(string fileName, string resourceName)
+    {
+        string filePath = "Prefabs/Item/ItemFrame/Item";
+        GameObject ItemPrefabs = Resources.Load<GameObject>(filePath);
+        GameObject ItemGameObject = GameObject.Instantiate(ItemPrefabs);
+        ItemGameObject.transform.SetParent(_tileMap.transform);
+
+
+        ItemGameObject.transform.localPosition = Vector3.zero;
+
+        Item item = ItemGameObject.GetComponent<Heal>();
+        switch (fileName)
+        {
+            case "Heal":
+                item = ItemGameObject.AddComponent<Heal>(); break;
+
+        }
+        item.Init(resourceName);
+
+        return item;
+    }
+
 
 }
+

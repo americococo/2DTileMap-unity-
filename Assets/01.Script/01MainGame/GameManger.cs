@@ -37,7 +37,7 @@ public class GameManger
         _tileMap = map;
     }
 
-    public Character TargetCharacter;
+    
 
 
 }

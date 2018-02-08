@@ -34,8 +34,8 @@ public class Character : MapObject
         _level = 1;
     }
 
-    
 
+    
 
     // Update is called once per frame
     void Update()
@@ -64,7 +64,7 @@ public class Character : MapObject
 
     public void Init(string viewName)
     {
-        string filePath = "Prefabs/CharacterView/" + viewName;
+        string filePath = "Prefabs/CharacterFile/CharacterView/" + viewName;
         GameObject characterViewPrefabs = Resources.Load<GameObject>(filePath);
         _chracterView = GameObject.Instantiate(characterViewPrefabs);
         _chracterView.transform.SetParent(transform);
@@ -275,7 +275,7 @@ public class Character : MapObject
         messageParam.message = "ATTACK";
 
         messageSystem.Instance.Send(messageParam);
-        Debug.Log(this._level.ToString()+ this.ToString());
+        
 
         _Exp += 30;
         LevelUp();
@@ -293,7 +293,7 @@ public class Character : MapObject
     }
 
     //attack
-    protected int _attackPoint;
+    protected int _attackPoint=10;
     protected int _damagePoint;
 
     float _attackCoolTime = 1.0f;
@@ -356,10 +356,22 @@ public class Character : MapObject
     protected int _hp = 0; // hp<0 -> Live(false)
     protected bool _isLive = true;
 
+    Item _Deathitem;
+    public void setDeathItem(Item deathItem)
+    {
+        _Deathitem = deathItem;
+    }
+
     public bool Islive()
     {
         return _isLive;
     }
+
+    public Item createDeathItem()
+    {
+        return _Deathitem;
+    }
+
 
     //State
     public void ChangeState(eStateType nextstate)
@@ -406,6 +418,7 @@ public class Character : MapObject
             if(map.GetTileCell(_tileX, tileY).GetNextStagePosition())
             {
                 map.NextScene("NextScene");
+                ScenenDataManager.Instance.setCharacterData((Player)this);
             }
 
 

@@ -18,16 +18,17 @@ public class ScenenDataManager
             return _instance;
         }
     }
-    Character PlayerData;
+    Player _player;
 
-    public void SetPlayerData(Character player)
+    public void setCharacterData(Player player)
     {
-        PlayerData = player;
+        _player = player;
     }
 
-    public Character getPlayer()
+    public Player getCharacterData()
     {
-        return PlayerData;
+        return _player;
     }
+
 
 }
