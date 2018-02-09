@@ -11,7 +11,11 @@ public class Death : State
         _character.SetCanMove(true);
         _character.gameObject.transform.localRotation = Quaternion.Euler(0.0f, 0.0f, 90.0f);
 
-        _character.createDeathItem().setTilePostion(_character.GetTileX(), _character.GetTileY()+1);
+        Item item= _character.GetDeathItem();
+
+        TileMap map = GameManger.Instance.GetMap();
+
+        map.SetObject(_character.GetTileX(), _character.GetTileY(), item, eTileLayer.ITEM);
 
     }
 }

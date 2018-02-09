@@ -6,6 +6,8 @@ public enum eMapObjectType
 {
     NONE,
     CHARACTER,
+    ITEM,
+
 }
 
 

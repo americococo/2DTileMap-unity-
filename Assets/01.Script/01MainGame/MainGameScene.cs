@@ -40,6 +40,7 @@ public class MainGameScene : MonoBehaviour
 
 
         player.setDeathItem(item);
+        monster.setDeathItem(item);
 
     }
 

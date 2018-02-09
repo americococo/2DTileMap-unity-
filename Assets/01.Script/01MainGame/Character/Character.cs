@@ -35,7 +35,7 @@ public class Character : MapObject
     }
 
 
-    
+
 
     // Update is called once per frame
     void Update()
@@ -205,8 +205,8 @@ public class Character : MapObject
 
     }
 
-    protected int _Exp=0;
-    protected int _level=1;
+    protected int _Exp = 0;
+    protected int _level = 1;
 
     public int getExp()
     {
@@ -266,7 +266,7 @@ public class Character : MapObject
                 case eMapObjectType.CHARACTER:
                     messageParam.receiver = collisionList[i];
                     break;
-                
+
             }
         }
 
@@ -275,13 +275,37 @@ public class Character : MapObject
         messageParam.message = "ATTACK";
 
         messageSystem.Instance.Send(messageParam);
-        
+
 
         _Exp += 30;
         LevelUp();
 
         return messageParam.receiver;
     }
+
+    public void ItmeUse()
+    {
+        ObjectMessageParam messageParam = new ObjectMessageParam();
+
+        TileMap map = GameManger.Instance.GetMap();
+        List<MapObject> TileList = map.GetTileList(_tileX, _tileY);
+        for (int i = 0; i < TileList.Count; i++)
+        {
+            switch (TileList[i].GetObjectType())
+            {
+                case eMapObjectType.ITEM:
+                    messageParam.receiver = TileList[i];
+                    break;
+
+            }
+        }
+        
+        messageParam.sender = this;
+        messageParam.message = "EAT";
+        messageSystem.Instance.Send(messageParam);
+    }
+
+
 
     public int getHp()
     {
@@ -292,11 +316,18 @@ public class Character : MapObject
         return  _fullHp;
     }
 
+    public void recovery(int recoverypoint)
+    {
+        _hp += recoverypoint;
+        if (_hp >= 200)
+            _hp = 200;
+    }
+
     //attack
     protected int _attackPoint=10;
     protected int _damagePoint;
 
-    float _attackCoolTime = 1.0f;
+    protected float _attackCoolTime = 1.0f;
     float _deltaAttackCoolTime = 0.0f;
 
     public void UpdateAttackCoolTime()
@@ -367,7 +398,7 @@ public class Character : MapObject
         return _isLive;
     }
 
-    public Item createDeathItem()
+    public Item GetDeathItem()
     {
         return _Deathitem;
     }
@@ -414,8 +445,7 @@ public class Character : MapObject
             _tileY = tileY;
             map.SetObject(_tileX, _tileY, this, eTileLayer.MIIDDLE);
 
-
-            if(map.GetTileCell(_tileX, tileY).GetNextStagePosition())
+            if (map.GetTileCell(_tileX, tileY).GetNextStagePosition())
             {
                 map.NextScene("NextScene");
                 ScenenDataManager.Instance.setCharacterData((Player)this);

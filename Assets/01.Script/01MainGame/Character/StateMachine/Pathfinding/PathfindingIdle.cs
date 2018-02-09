@@ -9,6 +9,12 @@ public class PathfindingIdle : State
     {
         base.Update();
 
+        if(Input.GetButton("Jump"))
+        {
+            _character.ItmeUse();
+        }
+
+
         if (Input.GetMouseButtonDown(0))
         {
 

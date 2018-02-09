@@ -9,6 +9,7 @@ public class Player : Character
         _level = 1;
         _Exp = 0;
         _hp = _fullHp;
+        _attackCoolTime = 0.3f;
     }
 
     void Start()

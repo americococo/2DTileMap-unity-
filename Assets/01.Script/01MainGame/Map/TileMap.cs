@@ -344,6 +344,18 @@ public class TileMap : MonoBehaviour
         return tileCell.GetCollsionList();
     }
 
+    public List<MapObject> GetTileList(int tileX,int tileY)
+    {
+        if (tileX < 0 || _width <= tileX)
+            return null;
+        if (tileY < 0 || _height <= tileY)
+            return null;
+
+        TileCell tileCell = GetTileCell(tileX, tileY);
+
+        return tileCell.GetTileList();
+    }
+
     public void ResetObject(int tileX, int tileY, MapObject tileObject)
     {
         TileCell tileCell = GetTileCell(tileX, tileY);

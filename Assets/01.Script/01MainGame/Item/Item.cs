@@ -8,7 +8,7 @@ public class Item : MapObject
     // Use this for initialization
     void Start()
     {
-
+        _ObjectType = eMapObjectType.ITEM;
     }
 
     // Update is called once per frame
@@ -30,16 +30,15 @@ public class Item : MapObject
         _itemView.transform.localScale = Vector3.one;
         _itemView.transform.localPosition = Vector3.zero;
 
-        
     }
 
     override public void SetSortingOrder(eTileLayer layer, int sortingOrder)
     {
         _currentlayer = layer;
-
-        int sortingID = SortingLayer.NameToID(layer.ToString());
+        int sortingID = SortingLayer.NameToID(_currentlayer.ToString());
         _itemView.GetComponent<SpriteRenderer>().sortingLayerID = sortingID;
         _itemView.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
     }
+  
 
 }

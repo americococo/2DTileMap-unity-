@@ -7,6 +7,7 @@ public enum eTileLayer
 {
     GROUND,
     MIIDDLE,
+    ITEM,
     MAXCOUNT,
 }
 
@@ -98,6 +99,20 @@ public class TileCell
                     CollsionList.Add(mapObject[i]);
         }
         return CollsionList;
+    }
+
+    public List<MapObject> GetTileList()
+    {
+        List<MapObject> TileList = new List<MapObject>();
+
+        for (int layer = 0; layer < (int)eTileLayer.MAXCOUNT; layer++)
+        {
+            List<MapObject> mapObject = _MapObjectMap[layer];
+            for (int i = 0; i < mapObject.Count; i++)
+                TileList.Add(mapObject[i]);
+        }
+
+        return TileList;
     }
 
     bool nextStagePosition=false;
